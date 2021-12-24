@@ -1,6 +1,7 @@
 package constants;
 
 public enum Sizes {
+	//============= SIZES
 	SCREEN_DEFAULT_WIDTH(1080),
 	SCREEN_DEFAULT_HEIGHT(575),
 	SETTING_HEIGHT(575 * 0.085f),
@@ -9,12 +10,14 @@ public enum Sizes {
 	STATUSBAR_HEIGHT(575 * 0.05f);
 	
 	
+	//============= PROPS & CONSTRUCTOR
 	float size;
 	
 	Sizes(float size) {
 		this.size = size;
 	}
 	
+	//============= GETTER
 	public float getSize() {
 		return this.size;
 	}

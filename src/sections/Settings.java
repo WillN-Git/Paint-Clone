@@ -8,7 +8,7 @@ import org.newdawn.slick.SlickException;
 import constants.*;
 
 /*
- * Responsible to handle settings
+ * Responsible to handle the settings
  */
 public class Settings {
 	/*

@@ -1,10 +1,11 @@
 package sections;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import constants.AppColors;
+import constants.Icons;
 import constants.Sizes;
 
 public class StatusBar {
@@ -38,6 +39,16 @@ public class StatusBar {
 		//Mouse position
 		gr.setColor(AppColors.TEXT.getColor());
 		
-		gr.drawString(mouseX + "x" + mouseY, PADDING_H, TOP + 5f);
+		gr.drawImage(new Image(Icons.SMALL_POINTER.toString()), PADDING_H, TOP + 5);
+		gr.drawString(mouseX + "," + mouseY + "px", PADDING_H + 20, TOP + 5);
+		
+		gr.drawImage(new Image(Icons.SMALL_SELECTED.toString()), PADDING_H + 230, TOP + 7);
+		
+		gr.drawImage(new Image(Icons.SMALL_BOARD.toString()), PADDING_H + 450, TOP + 7);
+		gr.drawString(
+			(int)(Sizes.SCREEN_DEFAULT_WIDTH.getSize() * 0.7f) + "x" + (int)Sizes.BOARD_HEIGHT.getSize() + "px",
+			PADDING_H + 470,
+			TOP + 5
+		);
 	}
 }

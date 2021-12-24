@@ -1,15 +1,15 @@
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.gui.GUIContext;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.gui.MouseOverArea;
 
-import constants.AppColors;
 import constants.Icons;
 import constants.Sizes;
 import sections.*;
@@ -30,9 +30,13 @@ public class Test extends BasicGame {
 	DrawSpace drawspace;
 	StatusBar statusbar;
 	
+	//================== GUI
+	private int mouseX, mouseY;
+	
 	//================== DRAFT
 	private MouseOverArea file;
-	private int mouseX, mouseY;
+	private boolean draw = false;
+	Font font;
 	
 	
 	
@@ -51,14 +55,14 @@ public class Test extends BasicGame {
 	
 	@Override
 	public void render(GameContainer gc, Graphics gr) throws SlickException {
+		//gr.scale(Display.getWidth() / WIDTH, Display.getHeight() /  HEIGHT);
+		gr.setAntiAlias(true);
+		
 		/* ============================ SETTINGS SECTION ============================= */
 		settings.display(gr);
 		
-		
 		/* ============================ TOOLKIT SECTION ============================= */
-		toolkit.display(gr);
-		
-		
+		toolkit.display(gr, mouseX, mouseY);
 		
 		/* ============================ BOARD SECTION ============================= */
 		board.display(gr);
@@ -68,6 +72,12 @@ public class Test extends BasicGame {
 		
 		/* ============================ STATUSBAR SECTION ============================= */
 		statusbar.display(gr, mouseX, mouseY);
+		
+		if(draw) {
+			gr.setColor(new Color(255, 0, 0));
+			gr.drawOval(mouseX - 7.5f, mouseY - 7.5f, 50, 50);//Segments params allowed you to draw a figure with n segments in an Oval
+		}
+		
 		
 		
 		//LineDividers
@@ -83,7 +93,21 @@ public class Test extends BasicGame {
 		mouseX = input.getMouseX();
 		mouseY = input.getMouseY();
 		
+		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+			draw = true;
+			title = "Ok";
+		} else {
+			draw = false;
+		}
+				
 		app.setTitle(title + " - Paint");
+	}
+	
+	@Override
+	public boolean closeRequested() {
+		
+		System.exit(0);
+		return false;
 	}
 	
 	public static void main(String[] args) throws SlickException {
@@ -91,6 +115,9 @@ public class Test extends BasicGame {
 		
 		app.setShowFPS(false);
 		app.setIcon(Icons.LOGO.toString());
+		
+		Display.setResizable(true);
+		
 		
 		//For launching app
 		app.start();
