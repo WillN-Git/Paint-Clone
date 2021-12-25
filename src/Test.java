@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -9,6 +11,8 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Curve;
+import org.newdawn.slick.geom.Path;
+import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.gui.MouseOverArea;
 
@@ -38,11 +42,14 @@ public class Test extends BasicGame {
 	private int mouseXClick, mouseYClick;
 	private int mouseXDrag, mouseYDrag;
 	private boolean showStatusBar = true, showGridlines = false, showRuler = false;
+	private float zoomFactor = 0.5f;
 	
 	//================== DRAFT
 	private MouseOverArea file;
 	private boolean draw = false;
 	Font font;
+	
+	ArrayList<Vector2f> v = new ArrayList<>();
 	
 	public Test(String title) {
 		super(title);
@@ -73,8 +80,9 @@ public class Test extends BasicGame {
 		board.display(gr, showRuler);
 		
 		/* ============================ DRAWSPACE SECTION ============================= */
-		drawspace.display(gr, showGridlines);
+		drawspace.display(gr, showGridlines, zoomFactor);
 		
+		gr.scale(1, 1);
 		/* ============================ STATUSBAR SECTION ============================= */
 		if(showStatusBar) {
 			statusbar.display(gr, mouseX, mouseY);
@@ -102,10 +110,33 @@ public class Test extends BasicGame {
 		
 		//drawRectangle(gr, mouseXClick, mouseYClick, mouseX, mouseY);
 		
-		gr.setColor(AppColors.LIGHTGRAY.getColor());
-		gr.fillRoundRect(200, 300, 150, 200, 5);
-		gr.setColor(AppColors.BLACK.getColor());
-		gr.drawString("100 %", 205, 305);
+//		gr.setColor(AppColors.LIGHTGRAY.getColor());
+//		gr.fillRoundRect(200, 300, 150, 200, 5);
+//		gr.setColor(AppColors.BLACK.getColor());
+//		gr.drawString("100 %", 205, 305);
+		
+		Polygon p = new Polygon();
+		
+		p.addPoint(150,  437);
+		p.addPoint(375, 343);
+		p.addPoint(75, 343);
+		p.addPoint(300, 437);
+		//p.addPoint(58, 560);
+		
+		gr.draw(p);
+		
+		Path path; 
+		
+		if(v.size() >= 4) {
+			path= new Path(v.get(0).getX(), v.get(0).getY());
+			for(int i=1; i<v.size() - 2; i++)
+				path.curveTo(v.get(i).getX(), v.get(i).getY(), v.get(i+1).getX(), v.get(i+1).getY(),v.get(i+2).getX(), v.get(i+2).getY());
+			
+			gr.setColor(new Color(0, 0, 0));
+			gr.draw(path);
+		}
+		
+		
 	}
 
 	@Override
@@ -118,6 +149,10 @@ public class Test extends BasicGame {
 		if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 			mouseXClick = input.getMouseX();
 			mouseYClick = input.getMouseY();
+		}
+		
+		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
+			v.add(new Vector2f(input.getMouseX(), input.getMouseY()));
 		}
 		
 		//Keyboard Shortcuts

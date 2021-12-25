@@ -29,7 +29,9 @@ public class DrawSpace {
 	 * 			METHODS 
 	 * =============================
 	*/
-	public void display(Graphics gr, boolean showGridlines) throws SlickException {
+	public void display(Graphics gr, boolean showGridlines, float zoomFactor) throws SlickException {
+		gr.scale(zoomFactor, zoomFactor);
+		
 		//Paper
 		gr.setColor(AppColors.WHITE.getColor());
 		gr.fillRect(LEFT, TOP, WIDTH, HEIGHT);
