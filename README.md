@@ -1,2 +1,2 @@
 # Paint-Clone
-A simple reproduction of the Windows Paint application, made with the slick2D graphics library.
+A simple reproduction of the Windows Paint application, made with the graphics library slick2D.
