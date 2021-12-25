@@ -8,8 +8,11 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.geom.Curve;
+import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.gui.MouseOverArea;
 
+import constants.AppColors;
 import constants.Icons;
 import constants.Sizes;
 import sections.*;
@@ -19,26 +22,27 @@ public class Test extends BasicGame {
 	public static AppGameContainer app;
 	
 	//================== APP PROPERTIES
-	public static String title = "Untitled";
-	public static float WIDTH = Sizes.SCREEN_DEFAULT_WIDTH.getSize(),
-						HEIGHT = Sizes.SCREEN_DEFAULT_HEIGHT.getSize();
+	private static String title = "Untitled";
+	private static float WIDTH = Sizes.SCREEN_DEFAULT_WIDTH.getSize(),
+				HEIGHT = Sizes.SCREEN_DEFAULT_HEIGHT.getSize();
 	
 	//================== SECTIONS
-	Settings settings;
-	Toolkit toolkit;
-	Board board;
-	DrawSpace drawspace;
-	StatusBar statusbar;
+	private Settings settings;
+	private Toolkit toolkit;
+	private Board board;
+	private DrawSpace drawspace;
+	private StatusBar statusbar;
 	
 	//================== GUI
 	private int mouseX, mouseY;
+	private int mouseXClick, mouseYClick;
+	private int mouseXDrag, mouseYDrag;
+	private boolean showStatusBar = true, showGridlines = false, showRuler = false;
 	
 	//================== DRAFT
 	private MouseOverArea file;
 	private boolean draw = false;
 	Font font;
-	
-	
 	
 	public Test(String title) {
 		super(title);
@@ -58,32 +62,50 @@ public class Test extends BasicGame {
 		//gr.scale(Display.getWidth() / WIDTH, Display.getHeight() /  HEIGHT);
 		gr.setAntiAlias(true);
 		
-		/* ============================ SETTINGS SECTION ============================= */
-		settings.display(gr);
-		
 		/* ============================ TOOLKIT SECTION ============================= */
-		toolkit.display(gr, mouseX, mouseY);
+		toolkit.display(gr, mouseX, mouseY, mouseXClick, mouseYClick);
+		lineDivider(gr, Sizes.SETTING_HEIGHT.getSize());
+		
+		/* ============================ SETTINGS SECTION ============================= */
+		settings.display(gr, mouseX, mouseY, mouseXClick, mouseYClick);
 		
 		/* ============================ BOARD SECTION ============================= */
-		board.display(gr);
+		board.display(gr, showRuler);
 		
 		/* ============================ DRAWSPACE SECTION ============================= */
-		drawspace.display(gr);
+		drawspace.display(gr, showGridlines);
 		
 		/* ============================ STATUSBAR SECTION ============================= */
-		statusbar.display(gr, mouseX, mouseY);
+		if(showStatusBar) {
+			statusbar.display(gr, mouseX, mouseY);
+			lineDivider(gr, Sizes.SCREEN_DEFAULT_HEIGHT.getSize() - Sizes.STATUSBAR_HEIGHT.getSize());
+		}
 		
 		if(draw) {
 			gr.setColor(new Color(255, 0, 0));
 			gr.drawOval(mouseX - 7.5f, mouseY - 7.5f, 50, 50);//Segments params allowed you to draw a figure with n segments in an Oval
 		}
 		
+		Vector2f p1 = new Vector2f(150, 437);
+		Vector2f c1 = new Vector2f(375, 343);
+		Vector2f c2 = new Vector2f(75, 343);
+		Vector2f p2 = new Vector2f(300, 437);
 		
+		Curve c = new Curve(p1, c1, c2, p2);
+		
+		gr.setColor(new Color(255, 0, 0));
+		//gr.translate(mouseX, mouseY);
+		gr.draw(c);
 		
 		//LineDividers
-		lineDivider(gr, Sizes.SCREEN_DEFAULT_HEIGHT.getSize() - Sizes.STATUSBAR_HEIGHT.getSize());
-		lineDivider(gr, Sizes.SETTING_HEIGHT.getSize());
 		lineDivider(gr, Sizes.SETTING_HEIGHT.getSize() + Sizes.TOOLKIT_HEIGHT.getSize());
+		
+		//drawRectangle(gr, mouseXClick, mouseYClick, mouseX, mouseY);
+		
+		gr.setColor(AppColors.LIGHTGRAY.getColor());
+		gr.fillRoundRect(200, 300, 150, 200, 5);
+		gr.setColor(AppColors.BLACK.getColor());
+		gr.drawString("100 %", 205, 305);
 	}
 
 	@Override
@@ -92,6 +114,26 @@ public class Test extends BasicGame {
 		
 		mouseX = input.getMouseX();
 		mouseY = input.getMouseY();
+		
+		if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
+			mouseXClick = input.getMouseX();
+			mouseYClick = input.getMouseY();
+		}
+		
+		//Keyboard Shortcuts
+		
+		if((input.isKeyDown(Input.KEY_LCONTROL) || input.isKeyDown(Input.KEY_RCONTROL)) && input.isKeyPressed(Input.KEY_G)) {
+			showGridlines = !showGridlines;
+		}
+		
+		if((input.isKeyDown(Input.KEY_LCONTROL) || input.isKeyDown(Input.KEY_RCONTROL)) && input.isKeyPressed(Input.KEY_R)) {
+			showRuler = !showRuler;
+		}
+		
+		if((input.isKeyDown(Input.KEY_LCONTROL) || input.isKeyDown(Input.KEY_RCONTROL)) && input.isKeyPressed(Input.KEY_B)) {
+			showStatusBar = !showStatusBar;
+		}
+		
 		
 		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
 			draw = true;
@@ -105,7 +147,6 @@ public class Test extends BasicGame {
 	
 	@Override
 	public boolean closeRequested() {
-		
 		System.exit(0);
 		return false;
 	}
@@ -116,9 +157,6 @@ public class Test extends BasicGame {
 		app.setShowFPS(false);
 		app.setIcon(Icons.LOGO.toString());
 		
-		Display.setResizable(true);
-		
-		
 		//For launching app
 		app.start();
 	}
@@ -126,5 +164,11 @@ public class Test extends BasicGame {
 	public void lineDivider(Graphics gr, float y) {
 		gr.setColor(new Color(230, 230, 230));
 		gr.drawLine(0, y, WIDTH, y);
+	}
+	
+	//DRAFT
+	public void drawRectangle(Graphics gr, float mouseXClick, float mouseYClick, float mouseX, float mouseY) {
+		gr.setColor(new Color(255, 0, 0));
+		gr.drawRect(mouseXClick, mouseYClick, -(mouseXClick - mouseX), (mouseY - mouseYClick));
 	}
 }

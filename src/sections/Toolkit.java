@@ -9,6 +9,7 @@ import components.Tool;
 import constants.AppColors;
 import constants.Icons;
 import constants.Sizes;
+import gui.ClickableArea;
 import gui.MouseHoverArea;
 
 
@@ -18,6 +19,7 @@ public class Toolkit {
 	 * 			PROPS 
 	 * =============================
 	*/
+	//Section dimension
 	private float WIDTH = Sizes.SCREEN_DEFAULT_WIDTH.getSize(),
 				HEIGHT = Sizes.TOOLKIT_HEIGHT.getSize();
 	
@@ -26,6 +28,8 @@ public class Toolkit {
 	private float TOP = Sizes.SETTING_HEIGHT.getSize(),
 				MIDDLE = TOP + 40 - 10,
 				BOTTOM = Sizes.SETTING_HEIGHT.getSize() + HEIGHT;
+	
+	private Color firstColor = AppColors.BLACK.getColor(), secondColor = AppColors.WHITE.getColor();
 	
 	private Color[][] colorset = {
 				{
@@ -100,10 +104,10 @@ public class Toolkit {
 	 * 			METHODS 
 	 * =============================
 	*/
-	public void display(Graphics gr, float mouseX, float mouseY) throws SlickException {
+	public void display(Graphics gr, float mouseX, float mouseY, float mouseXClick, float mouseYClick) throws SlickException {
 		//Background
 		gr.setColor(AppColors.SMOOTHGRAY.getColor());
-		gr.fillRect(0, Sizes.SETTING_HEIGHT.getSize(), WIDTH, HEIGHT);
+		gr.fillRect(0, TOP, WIDTH, HEIGHT);
 		
 		//Clipboard
 		categoryLabel(gr, "Clipboard", PADDING_H);
@@ -132,29 +136,28 @@ public class Toolkit {
 		//Colors
 		categoryLabel(gr, "Colors", PADDING_H + 715.5f);
 		
-		gr.setColor(AppColors.BLACK.getColor());
-		gr.fillOval(635 + 15 - 14f, TOP + 28 - 14f, 28, 28);
-		
-		gr.setColor(AppColors.WHITE.getColor());
-		gr.fillOval(635 + 15 - 14, MIDDLE + 40 - 14, 28, 28);
-		
-		
-		gr.setColor(AppColors.DARKRED.getColor());
-		gr.drawOval(635 + 15 - 17.5f, TOP + 28 - 17.5f, 35, 35);
-		gr.drawOval(635 + 15 - 17.5f, MIDDLE + 40 - 17.5f, 35, 35);
+		//Primary and secondary
+		displayMainColor(gr, firstColor, TOP + 28);
+		displayMainColor(gr, secondColor, MIDDLE + 40);
 		
 		//Tools
 		for(int i=0; i<tools.length; i++) {
-			MouseHoverArea m = new MouseHoverArea(
+			(new MouseHoverArea(
 					gr,
 					new Image(tools[i].getImgPath()),
 					tools[i].getPosX(),
 					tools[i].getPosY(),
 					tools[i].getWidth(),
 					tools[i].getHeight()
-			);
+			)).hoverListener(mouseX, mouseY);
 			
-			m.hoverListener(mouseX, mouseY);
+			(new ClickableArea(
+					gr,
+					tools[i].getPosX(),
+					tools[i].getPosY(),
+					tools[i].getWidth(),
+					tools[i].getHeight()
+			)).clickableListener(mouseXClick, mouseYClick);
 		}
 		
 		//Colorset
@@ -176,5 +179,21 @@ public class Toolkit {
 	public void categoryLabel(Graphics gr, String label, float x) { 
 		gr.setColor(AppColors.GRAY.getColor());
 		gr.drawString(label, x, BOTTOM - 20);
+	}
+	
+	public void displayMainColor(Graphics gr, Color color, float y) {
+		gr.setColor(color);
+		gr.fillOval(635 + 15 - 14, y - 14, 28, 28);
+		
+		gr.setColor(AppColors.DARKRED.getColor());
+		gr.drawOval(635 + 15 - 17.5f, y - 17.5f, 35, 35);
+	}
+	
+	public void setFirstColor(Color newColor) {
+		this.firstColor = newColor;
+	}
+	
+	public void setSecondColor(Color newColor) {
+		this.secondColor = newColor;
 	}
 }

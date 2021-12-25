@@ -18,6 +18,11 @@ public enum Icons {
 	SMALL_COPY("001-copy.png"),
 	SMALL_CUT("002-scissors.png"),
 	
+	//BLACK & WHITE
+	BW_CHECK("003-check.png"),
+	BW_FULLSCREEN("001-fullscreen.png"),
+	BW_ZO0MBOARD("002-fullscreen-1.png"),
+	
 	//NORMAL
 	BACK("back.png"),
 	NEXT("next.png"),

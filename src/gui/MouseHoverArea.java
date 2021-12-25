@@ -19,8 +19,8 @@ public class MouseHoverArea {
 	//Hover Area Dimensions
 	private float hoverAreaWidth, hoverAreaHeight;
 	//Content
-	private String text;
-	private Image img;
+	private String text = null;
+	private Image img = null;
 	
 	
 	/*
@@ -31,8 +31,10 @@ public class MouseHoverArea {
 	public MouseHoverArea(Graphics gr, String text, float posX, float posY, float width, float height) {
 		this.text = text;//drawString(text, posX, posY);
 		this.gr = gr;
-		this.hoverAreaWidth = width + 5;
-		this.hoverAreaHeight = height + 5;
+		this.posX = posX;
+		this.posY = posY;
+		this.hoverAreaWidth = width + 8;
+		this.hoverAreaHeight = height + 8;
 	}
 	
 	public MouseHoverArea(Graphics gr, Image img, float posX, float posY, float width, float height) {
@@ -52,7 +54,7 @@ public class MouseHoverArea {
 	*/
 	
 	public void hoverListener(float mouseX, float mouseY) {
-		displayHoverableImage();
+		displayHoverableArea();
 		
 		if(
 			(posX <= mouseX && mouseX <= posX + hoverAreaWidth) &&
@@ -67,8 +69,13 @@ public class MouseHoverArea {
 		hoverAction();	
 	}
 	
-	private void displayHoverableImage() {
-		gr.drawImage(img, posX, posY);
+	private void displayHoverableArea() {
+		if(img != null) {
+			gr.drawImage(img, posX, posY);
+		} else {
+			gr.setColor(AppColors.TEXT.getColor());
+			gr.drawString(text, posX, posY);
+		}
 	}
 	
 	private void hoverAction() {	

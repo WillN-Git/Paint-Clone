@@ -21,6 +21,7 @@ public class StatusBar {
 	
 	private float TOP = Sizes.SCREEN_DEFAULT_HEIGHT.getSize() - HEIGHT;
 	
+	
 	/*
 	 * =============================
 	 * 			METHODS 
@@ -29,18 +30,23 @@ public class StatusBar {
 	public void display(Graphics gr, int mouseX, int mouseY) throws SlickException {
 		//Background
 		gr.setColor(AppColors.PALEGRAY.getColor());
-		gr.fillRect(
-			0,
-			Sizes.SCREEN_DEFAULT_HEIGHT.getSize() - HEIGHT,
-			WIDTH,
-			HEIGHT
-		);
+		gr.fillRect(0, TOP, WIDTH, HEIGHT);
 		
 		//Mouse position
 		gr.setColor(AppColors.TEXT.getColor());
 		
 		gr.drawImage(new Image(Icons.SMALL_POINTER.toString()), PADDING_H, TOP + 5);
-		gr.drawString(mouseX + "," + mouseY + "px", PADDING_H + 20, TOP + 5);
+		
+		if(
+			(40 < mouseX && mouseX < Sizes.SCREEN_DEFAULT_WIDTH.getSize() * 0.7f + 40) && 
+			(Sizes.SETTING_HEIGHT.getSize() + Sizes.TOOLKIT_HEIGHT.getSize() + 40 < mouseY && mouseY < Sizes.SCREEN_DEFAULT_HEIGHT.getSize() - HEIGHT)
+		) {
+			gr.drawString(
+				mouseX + "," + mouseY,
+				PADDING_H + 20,
+				TOP + 5
+			);
+		}
 		
 		gr.drawImage(new Image(Icons.SMALL_SELECTED.toString()), PADDING_H + 230, TOP + 7);
 		
