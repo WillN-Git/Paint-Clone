@@ -1,5 +1,7 @@
 package components;
 
+import constants.Actions;
+
 public class Tool {
 	/*
 	 * =============================
@@ -9,6 +11,8 @@ public class Tool {
 	private float posX, posY;
 	private String imgPath;
 	private float width, height;
+	private String label;
+	private Actions action;
 	
 	
 	/*
@@ -17,12 +21,14 @@ public class Tool {
 	 * ================================
 	*/
 	
-	public Tool(String imgPath, float posX, float posY, float width, float height) {
+	public Tool(String label, String imgPath, float posX, float posY, float width, float height, Actions action) {
+		this.label = label;
 		this.imgPath = imgPath;
 		this.posX = posX;
 		this.posY = posY;
 		this.width = width;
 		this.height = height;
+		this.action = action;
 	}
 	
 	
@@ -50,6 +56,14 @@ public class Tool {
 	
 	public float getHeight() {
 		return this.height;
+	}
+	
+	public String getLabel() {
+		return this.label;
+	}
+	
+	public Actions getAction() {
+		return this.action;
 	}
 	
 	/*

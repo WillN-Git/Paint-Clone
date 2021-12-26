@@ -5,7 +5,9 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import components.Store;
 import components.Tool;
+import constants.Actions;
 import constants.AppColors;
 import constants.Icons;
 import constants.Sizes;
@@ -14,6 +16,15 @@ import gui.MouseHoverArea;
 
 
 public class Toolkit {
+	/*
+	 * =============================
+	 * 			DATA 
+	 * =============================
+	*/
+	
+	private Graphics gr;
+	private int mouseX, mouseY;
+	
 	/*
 	 * =============================
 	 * 			PROPS 
@@ -72,30 +83,30 @@ public class Toolkit {
 	
 	private Tool[] tools = {
 			//CLIPBOARD
-		new Tool(Icons.SMALL_CUT.toString(), PADDING_H + 65, TOP + 17, 16, 16),
-		new Tool(Icons.CLIPBOARD.toString(), PADDING_H, MIDDLE + 3, 32, 32),
-		new Tool(Icons.SMALL_COPY.toString(), PADDING_H + 65, MIDDLE + 27, 16, 16),
+		new Tool("Cut", Icons.SMALL_CUT.toString(), PADDING_H + 65, TOP + 17, 16, 16, Actions.CUT),
+		new Tool("Paste", Icons.CLIPBOARD.toString(), PADDING_H, MIDDLE + 3, 32, 32, Actions.PASTE),
+		new Tool("Copy", Icons.SMALL_COPY.toString(), PADDING_H + 65, MIDDLE + 27, 16, 16, Actions.COPY),
 			//IMAGE
-		new Tool(Icons.SMALL_CROP.toString(), PADDING_H + 190, TOP + 15, 16, 16),
-		new Tool(Icons.SMALL_ROTATE.toString(), PADDING_H + 157, TOP + 15, 16, 16),
-		new Tool(Icons.SELECT.toString(), PADDING_H + 115, MIDDLE + 3, 32, 32),
-		new Tool(Icons.SMALL_PICTURE.toString(), PADDING_H + 157, MIDDLE + 37, 16, 16),
-		new Tool(Icons.SMALL_FLIP.toString(), PADDING_H + 190, MIDDLE + 37, 16, 16),
+		new Tool("Crop", Icons.SMALL_CROP.toString(), PADDING_H + 190, TOP + 15, 16, 16, Actions.CROP),
+		new Tool("Rotate", Icons.SMALL_ROTATE.toString(), PADDING_H + 157, TOP + 15, 16, 16, Actions.ROTATE),
+		new Tool("Select", Icons.SELECT.toString(), PADDING_H + 115, MIDDLE + 3, 32, 32, Actions.SELECT),
+		new Tool("Picture", Icons.SMALL_PICTURE.toString(), PADDING_H + 157, MIDDLE + 37, 16, 16, Actions.RESIZE),
+		new Tool("Flip", Icons.SMALL_FLIP.toString(), PADDING_H + 190, MIDDLE + 37, 16, 16, Actions.FLIP),
 			//TOOLS
-		new Tool(Icons.PENCIL.toString(), PADDING_H + 235, TOP + 8, 24, 24),
-		new Tool(Icons.ERASER.toString(), PADDING_H + 235, MIDDLE + 27, 24, 24),
-		new Tool(Icons.FILL.toString(), PADDING_H + 273, TOP + 9, 24, 24),
-		new Tool(Icons.COLOR_PICKER.toString(), PADDING_H + 275, MIDDLE + 28, 24, 24),
-		new Tool(Icons.TEXT.toString(), PADDING_H + 310, TOP + 9.5f, 24, 24),
-		new Tool(Icons.ZOOM.toString(), PADDING_H + 310, MIDDLE + 27, 24, 24),
+		new Tool("Pencil", Icons.PENCIL.toString(), PADDING_H + 235, TOP + 8, 24, 24, Actions.DRAW_WITH_PENCIL),
+		new Tool("Eraser", Icons.ERASER.toString(), PADDING_H + 235, MIDDLE + 27, 24, 24, Actions.ERASE),
+		new Tool("Fill", Icons.FILL.toString(), PADDING_H + 273, TOP + 9, 24, 24, Actions.FILL),
+		new Tool("Color picker", Icons.COLOR_PICKER.toString(), PADDING_H + 275, MIDDLE + 28, 24, 24, Actions.PICK_COLOR),
+		new Tool("Text", Icons.TEXT.toString(), PADDING_H + 310, TOP + 9.5f, 24, 24, Actions.WRITE),
+		new Tool("Zoom", Icons.ZOOM.toString(), PADDING_H + 310, MIDDLE + 27, 24, 24, Actions.ZOOM),
 			//BRUSHES
-		new Tool(Icons.BRUSH.toString(), PADDING_H + 385, MIDDLE + 8, 24, 24),
+		new Tool("Brush", Icons.BRUSH.toString(), PADDING_H + 385, MIDDLE + 8, 24, 24, Actions.DRAW_WITH_BRUSH),
 			//SHAPES
-		new Tool(Icons.SHAPES.toString(), PADDING_H + 470, MIDDLE + 8, 24, 24),
+		new Tool("Shapes", Icons.SHAPES.toString(), PADDING_H + 470, MIDDLE + 8, 24, 24, Actions.DRAW_A_SHAPE),
 			//SIZE
-		new Tool(Icons.METER.toString(), PADDING_H + 540, MIDDLE + 8, 24, 24),
+		new Tool("Sizes", Icons.METER.toString(), PADDING_H + 540, MIDDLE + 8, 24, 24, Actions.SET_STROKE_SIZE),
 			//COLORS
-		new Tool(Icons.COLOR_SCHEME.toString(), PADDING_H + 910, MIDDLE + 8, 24, 24)		
+		new Tool("Color scheme", Icons.COLOR_SCHEME.toString(), PADDING_H + 910, MIDDLE + 8, 24, 24, Actions.SELECT_OPTION)		
 	};
 	
 	
@@ -104,7 +115,13 @@ public class Toolkit {
 	 * 			METHODS 
 	 * =============================
 	*/
-	public void display(Graphics gr, float mouseX, float mouseY, float mouseXClick, float mouseYClick) throws SlickException {
+	public void display() throws SlickException {
+		//Data mapping
+		gr = Store.getGr();
+		mouseX = Store.getMouseX();
+		mouseY = Store.getMouseY();
+		
+		
 		//Background
 		gr.setColor(AppColors.SMOOTHGRAY.getColor());
 		gr.fillRect(0, TOP, WIDTH, HEIGHT);
@@ -143,30 +160,31 @@ public class Toolkit {
 		//Tools
 		for(int i=0; i<tools.length; i++) {
 			(new MouseHoverArea(
-					gr,
+					tools[i].getLabel(),
 					new Image(tools[i].getImgPath()),
 					tools[i].getPosX(),
 					tools[i].getPosY(),
 					tools[i].getWidth(),
 					tools[i].getHeight()
-			)).hoverListener(mouseX, mouseY);
+			)).hoverListener();
 			
 			(new ClickableArea(
-					gr,
 					tools[i].getPosX(),
 					tools[i].getPosY(),
 					tools[i].getWidth(),
-					tools[i].getHeight()
-			)).clickableListener(mouseXClick, mouseYClick);
+					tools[i].getHeight(),
+					tools[i].getAction()
+			)).clickableListener();
 		}
 		
 		//Colorset
-		for(int i=0; i<colorset.length*20; i+=25) {
-			for(int j=0; j<colorset[0].length*25; j+=25) {
-				gr.setColor(colorset[i / 25][j / 25]);
-				gr.fillOval(690 + j - 7.5f, TOP + 25 + i - 7.5f, 15, 15);
+		int margin = 25;
+		for(int i=0; i<colorset.length*20; i+=margin) {//Is not really good to look with the 25 value of the margin
+			for(int j=0; j<colorset[0].length*margin; j+=margin) {
+				gr.setColor(colorset[i / margin][j / margin]);
+				gr.fillOval(690 + j - 7.5f, TOP + margin + i - 7.5f, 15, 15);
 				gr.setColor(AppColors.GRAY.getColor());
-				gr.drawOval(690 + j - 7.5f, TOP + 25 + i - 7.5f, 15, 15);
+				gr.drawOval(690 + j - 7.5f, TOP + margin + i - 7.5f, 15, 15);
 			}
 		}
 	}

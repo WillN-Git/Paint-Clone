@@ -2,18 +2,24 @@ package sections;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-import components.Item;
+import components.Store;
 import constants.*;
 import gui.ClickableArea;
 import gui.MouseHoverArea;
 
-/*
- * Responsible to handle the settings
- */
+
 public class Settings {
+	/*
+	 * =============================
+	 * 			DATA 
+	 * =============================
+	*/
+	
+	private Graphics gr;
+	private int mouseX, mouseY;
+	
 	/*
 	 * =============================
 	 * 			PROPS 
@@ -25,119 +31,94 @@ public class Settings {
 	
 	private float PADDING_H = 10;
 	
-	private float MIDDLE = 15;
-	
-	private Item[] viewItems = {
-		new Item(null, "100 %", "", PADDING_H + 50, MIDDLE+25),
-		new Item(null, "Rulers", "Ctrl+R", 0, 0),
-		new Item(null, "Gridlines", "Ctrl+G", 0, 0),
-		new Item(null, "Status Bar", "Ctrl+B", 0, 0),
-		new Item(null, "FullScreen", "", 0, 0)
-	};
-	
-	private Item[] fileItems = {
-		new Item(null, "New", "Ctrl+N", 0, 0),
-		new Item(null, "Open", "Ctrl+O", 0, 0),
-		new Item(null, "Recent", ">", 0, 0),
-		new Item(null, "Save", "Ctrl+S", 0, 0),
-		new Item(null, "Save as", "Ctrl+SHIFT+S", 0, 0),
-		new Item(null, "Print", ">", 0, 0),
-		new Item(null, "From scenner or camera", ">", 0, 0),
-		new Item(null, "Send", ">", 0, 0),
-		new Item(null, "Set as Desktop Background", ">", 0, 0),
-		new Item(null, "Image properties", "Ctrl+E", 0, 0),
-		new Item(null, "Settings", "", 0, 0)
-	};
-	
+	private float MIDDLE = 15;	
 	
 	/*
 	 * =============================
 	 * 			METHODS 
 	 * =============================
 	*/
-	public void display(Graphics gr, float mouseX, float mouseY, float mouseXClick, float mouseYClick) throws SlickException {
+	public void display() throws SlickException {
+		//Data mapping
+		gr = Store.getGr();
+		mouseX = Store.getMouseX();
+		mouseY = Store.getMouseY();
+		
 		//Background
 		gr.setColor(AppColors.PALEGRAY.getColor());
 		gr.fillRect(0, 0, WIDTH, HEIGHT);
 	
+		//Line Divider
+		lineDivider(gr, 115);
+		lineDivider(gr, 160);
+		
 		//Buttons
 		(new MouseHoverArea(
-				gr,
-				new Image(Icons.SAVE.toString()),
+				"Save",
+				Icons.SAVE.getIcon(),
 				130, MIDDLE + 3, 16, 16
-		)).hoverListener(mouseX, mouseY);
+		)).hoverListener();
 		
 		(new MouseHoverArea(
-				gr,
-				new Image(Icons.BACK.toString()),
+				"Back",
+				Icons.BACK.getIcon(),
 				170, MIDDLE + 3, 16, 16
-		)).hoverListener(mouseX, mouseY);
+		)).hoverListener();
 		
 		(new MouseHoverArea(
-				gr,
-				new Image(Icons.NEXT.toString()),
+				"Next",
+				Icons.NEXT.getIcon(),
 				200, MIDDLE + 3, 16, 16
-		)).hoverListener(mouseX, mouseY);
+		)).hoverListener();
 		
 		//MenuItems
 		gr.setColor(AppColors.TEXT.getColor());
 		
 		(new MouseHoverArea(
-			gr,
 			"File",
 			PADDING_H,
 			MIDDLE,
 			"File".length() * 10,
 			20
-		)).hoverListener(mouseX, mouseY);
+		)).hoverListener();
 		
 		(new ClickableArea(
-				gr,
 				PADDING_H,
 				MIDDLE,
 				"File".length() * 10,
-				20
-		)).clickableListener(mouseXClick, mouseYClick);
+				20,
+				Actions.SHOW_MENU
+		)).clickableListener();
 		
 		(new MouseHoverArea(
-				gr,
 				"View",
 				PADDING_H + 50,
 				MIDDLE,
 				"View".length() * 10,
 				20
-		)).hoverListener(mouseX, mouseY);
+		)).hoverListener();
 		
 		(new ClickableArea(
-				gr,
 				PADDING_H + 50,
 				MIDDLE,
 				"View".length() * 10,
-				20
-		)).clickableListener(mouseXClick, mouseYClick);
+				20,
+				Actions.SHOW_MENU
+		)).clickableListener();
 		
 		//Feedback
 		(new MouseHoverArea(
-				gr,
-				new Image(Icons.FEEDBACK.toString()),
+				"Feedback",
+				Icons.FEEDBACK.getIcon(),
 				WIDTH - PADDING_H - 30, 
 				MIDDLE + 3,
 				24,
 				24
-		)).hoverListener(mouseX, mouseY);;
-		
-		//Line Divider
-		gr.setColor(new Color(200, 200, 200));
-		
-		lineDivider(gr, 115);
-		lineDivider(gr, 160);
+		)).hoverListener();		
 	}
 	
 	public void lineDivider(Graphics gr, float x) {
+		gr.setColor(new Color(200, 200, 200));
 		gr.drawLine(x, MIDDLE - 5, x, MIDDLE + 25);
-	}
-	
-	public void displayMenu() {
-		
 	}
 }

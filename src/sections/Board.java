@@ -5,12 +5,21 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import components.Store;
 import constants.AppColors;
 import constants.Icons;
 import constants.Images;
 import constants.Sizes;
 
 public class Board {
+	/*
+	 * =============================
+	 * 			DATA 
+	 * =============================
+	*/
+	
+	private Graphics gr;
+	
 	/*
 	 * =============================
 	 * 			PROPS 
@@ -31,7 +40,10 @@ public class Board {
 	 * 			METHODS 
 	 * =============================
 	*/
-	public void display(Graphics gr, boolean showRuler) throws SlickException {
+	public void display(boolean showRuler) throws SlickException {
+		//Data mapping
+		gr = Store.getGr();
+		
 		//Background
 		gr.setColor(AppColors.PALEWHITE.getColor());
 		gr.fillRect(LEFT, TOP, WIDTH, HEIGHT);

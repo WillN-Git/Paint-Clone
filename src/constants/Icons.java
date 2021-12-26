@@ -1,5 +1,8 @@
 package constants;
 
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
 public enum Icons {
 	//============= ICONS
 	
@@ -53,5 +56,9 @@ public enum Icons {
 	//============= GETTER
 	public String toString() {
 		return this.path;
+	}
+	
+	public Image getIcon() throws SlickException {
+		return new Image(path);
 	}
 }

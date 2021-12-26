@@ -1,16 +1,16 @@
 package gui;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
+import components.Store;
+import constants.Actions;
 import constants.AppColors;
 
 public class ClickableArea {
-
-	public ClickableArea(Graphics gr, Image img, float posX, float posY, float width, float height) {
-		
-	}
-	
 	/*
 	 * =============================
 	 * 			PROPS 
@@ -24,18 +24,21 @@ public class ClickableArea {
 	//Hover Area Dimensions
 	private float clickableAreaWidth, clickableAreaHeight;
 	
+	private Actions action;
+	private int mouseX, mouseY;
 	
 	/*
 	 * ================================
 	 * 			CONSTRUCTOR 
 	 * ================================
 	*/
-	public ClickableArea(Graphics gr, float posX, float posY, float width, float height) {
-		this.gr = gr;
+	public ClickableArea(float posX, float posY, float width, float height, Actions action) {
+		this.gr = Store.getGr();
 		this.posX = posX;
 		this.posY = posY;
 		this.clickableAreaWidth = width + 8;
 		this.clickableAreaHeight = height + 8;
+		this.action = action;
 	}
 	
 	
@@ -45,7 +48,11 @@ public class ClickableArea {
 	 * =============================
 	*/
 	
-	public void clickableListener(float mouseX, float mouseY) {
+	public void clickableListener() throws SlickException {
+		//Data mapping
+		mouseX = Store.getMouseXClick();
+		mouseY = Store.getMouseYClick();
+		
 		
 		if(
 			(posX <= mouseX && mouseX <= posX + clickableAreaWidth) &&
@@ -54,14 +61,17 @@ public class ClickableArea {
 			
 			isClicked = true;
 		}
-		clickAction();	
-		
+		clickAction();
 	}
 	
-	private void clickAction() {	
+	private void clickAction() throws SlickException {	
 		if(isClicked) {
+			//Rectangle
 			gr.setColor(AppColors.TRANSPARENTGRAY.getColor());
 			gr.fillRoundRect(posX - 4, posY - 4, clickableAreaWidth, clickableAreaHeight, 2);
+			
+			//launch the "action"
+			(new ActionManager(posX, posY, clickableAreaWidth, clickableAreaHeight)).doThis(action);
 		}
 	}
 	

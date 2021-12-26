@@ -1,24 +1,21 @@
 import java.util.ArrayList;
 
-import org.lwjgl.opengl.Display;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Curve;
 import org.newdawn.slick.geom.Path;
 import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
-import org.newdawn.slick.gui.MouseOverArea;
 
-import constants.AppColors;
-import constants.Icons;
-import constants.Sizes;
+import components.Store;
+import constants.*;
 import sections.*;
 
 
@@ -28,28 +25,26 @@ public class Test extends BasicGame {
 	//================== APP PROPERTIES
 	private static String title = "Untitled";
 	private static float WIDTH = Sizes.SCREEN_DEFAULT_WIDTH.getSize(),
-				HEIGHT = Sizes.SCREEN_DEFAULT_HEIGHT.getSize();
+						HEIGHT = Sizes.SCREEN_DEFAULT_HEIGHT.getSize();
 	
 	//================== SECTIONS
 	private Settings settings;
 	private Toolkit toolkit;
 	private Board board;
-	private DrawSpace drawspace;
+	private Canva canva;
 	private StatusBar statusbar;
 	
 	//================== GUI
-	private int mouseX, mouseY;
-	private int mouseXClick, mouseYClick;
-	private int mouseXDrag, mouseYDrag;
 	private boolean showStatusBar = true, showGridlines = false, showRuler = false;
 	private float zoomFactor = 0.5f;
+	private int mouseX, mouseY, 
+				mouseXClick, mouseYClick;
 	
 	//================== DRAFT
-	private MouseOverArea file;
-	private boolean draw = false;
-	Font font;
+	private int oldTime, currentTime;
 	
 	ArrayList<Vector2f> v = new ArrayList<>();
+	
 	
 	public Test(String title) {
 		super(title);
@@ -57,10 +52,11 @@ public class Test extends BasicGame {
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
+		//=============== Sections
 		settings = new Settings();
 		toolkit = new Toolkit();
 		board = new Board();
-		drawspace = new DrawSpace();
+		canva = new Canva();
 		statusbar = new StatusBar();
 	}
 	
@@ -68,30 +64,28 @@ public class Test extends BasicGame {
 	public void render(GameContainer gc, Graphics gr) throws SlickException {
 		//gr.scale(Display.getWidth() / WIDTH, Display.getHeight() /  HEIGHT);
 		gr.setAntiAlias(true);
+		gr.setBackground(AppColors.PALEWHITE.getColor());
 		
-		/* ============================ TOOLKIT SECTION ============================= */
-		toolkit.display(gr, mouseX, mouseY, mouseXClick, mouseYClick);
-		lineDivider(gr, Sizes.SETTING_HEIGHT.getSize());
+		Store.setGr(gr);
 		
-		/* ============================ SETTINGS SECTION ============================= */
-		settings.display(gr, mouseX, mouseY, mouseXClick, mouseYClick);
+		toolkit.display();
 		
-		/* ============================ BOARD SECTION ============================= */
-		board.display(gr, showRuler);
+		lineDivider(gr, Sizes.SETTING_HEIGHT.getSize());//1
+		lineDivider(gr, Sizes.SETTING_HEIGHT.getSize() + Sizes.TOOLKIT_HEIGHT.getSize());//2
 		
-		/* ============================ DRAWSPACE SECTION ============================= */
-		drawspace.display(gr, showGridlines, zoomFactor);
-		
-		gr.scale(1, 1);
-		/* ============================ STATUSBAR SECTION ============================= */
-		if(showStatusBar) {
-			statusbar.display(gr, mouseX, mouseY);
-			lineDivider(gr, Sizes.SCREEN_DEFAULT_HEIGHT.getSize() - Sizes.STATUSBAR_HEIGHT.getSize());
+		//board.display(gr, showRuler);
+		if(showRuler) {
+			gr.drawImage(new Image(Images.RULER.toString()), 0, Sizes.SETTING_HEIGHT.getSize() + Sizes.TOOLKIT_HEIGHT.getSize());
 		}
 		
-		if(draw) {
-			gr.setColor(new Color(255, 0, 0));
-			gr.drawOval(mouseX - 7.5f, mouseY - 7.5f, 50, 50);//Segments params allowed you to draw a figure with n segments in an Oval
+		canva.display(showGridlines, zoomFactor);
+		settings.display();
+		
+		gr.scale(1, 1);
+		
+		if(showStatusBar) {
+			statusbar.display(gr);
+			lineDivider(gr, Sizes.SCREEN_DEFAULT_HEIGHT.getSize() - Sizes.STATUSBAR_HEIGHT.getSize());
 		}
 		
 		Vector2f p1 = new Vector2f(150, 437);
@@ -105,15 +99,7 @@ public class Test extends BasicGame {
 		//gr.translate(mouseX, mouseY);
 		gr.draw(c);
 		
-		//LineDividers
-		lineDivider(gr, Sizes.SETTING_HEIGHT.getSize() + Sizes.TOOLKIT_HEIGHT.getSize());
 		
-		//drawRectangle(gr, mouseXClick, mouseYClick, mouseX, mouseY);
-		
-//		gr.setColor(AppColors.LIGHTGRAY.getColor());
-//		gr.fillRoundRect(200, 300, 150, 200, 5);
-//		gr.setColor(AppColors.BLACK.getColor());
-//		gr.drawString("100 %", 205, 305);
 		
 		Polygon p = new Polygon();
 		
@@ -121,21 +107,35 @@ public class Test extends BasicGame {
 		p.addPoint(375, 343);
 		p.addPoint(75, 343);
 		p.addPoint(300, 437);
-		//p.addPoint(58, 560);
 		
 		gr.draw(p);
 		
-		Path path; 
+		Path path = null;
 		
-		if(v.size() >= 4) {
-			path= new Path(v.get(0).getX(), v.get(0).getY());
-			for(int i=1; i<v.size() - 2; i++)
-				path.curveTo(v.get(i).getX(), v.get(i).getY(), v.get(i+1).getX(), v.get(i+1).getY(),v.get(i+2).getX(), v.get(i+2).getY());
+		if(Store.getCurrentAction() == Actions.DRAW_WITH_PENCIL) {
+			if(v.size() >= 4) {
+				path = new Path(v.get(0).getX(), v.get(0).getY());
+				
+				for(int i=1; i<v.size(); i++)
+					path.curveTo(
+									v.get(i).getX(), v.get(i).getY(),
+									v.get(i).getX(), v.get(i).getY(), 
+									v.get(i).getX(), v.get(i).getY()
+								);
+				gr.setColor(new Color(0,0,0));
+				gr.draw(path);
+			}
 			
-			gr.setColor(new Color(0, 0, 0));
-			gr.draw(path);
+			if(Store.getCurrentAction() != Store.getPreviousAction() && path != null) {
+				Store.addShape(path);
+				System.out.println("\nBoucle !");
+				path = null;
+			}
 		}
-		
+
+		for(Shape sh : Store.getShapes()) {
+			gr.draw(sh);
+		}
 		
 	}
 
@@ -143,40 +143,49 @@ public class Test extends BasicGame {
 	public void update(GameContainer gc, int arg1) throws SlickException {
 		Input input = gc.getInput();
 		
-		mouseX = input.getMouseX();
-		mouseY = input.getMouseY();
+		Store.setMouseX(input.getMouseX());
+		Store.setMouseY(input.getMouseY());
+		
+		mouseX = Store.getMouseX();
+		mouseY = Store.getMouseY();
+		
+		currentTime++;
 		
 		if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-			mouseXClick = input.getMouseX();
-			mouseYClick = input.getMouseY();
-		}
-		
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
-			v.add(new Vector2f(input.getMouseX(), input.getMouseY()));
+			Store.setMouseXClick(input.getMouseX());
+			Store.setMouseYClick(input.getMouseY());
+			mouseXClick = Store.getMouseXClick();
+			mouseYClick = Store.getMouseYClick();
 		}
 		
 		//Keyboard Shortcuts
-		
-		if((input.isKeyDown(Input.KEY_LCONTROL) || input.isKeyDown(Input.KEY_RCONTROL)) && input.isKeyPressed(Input.KEY_G)) {
-			showGridlines = !showGridlines;
+		if(input.isKeyDown(Input.KEY_LCONTROL) || input.isKeyDown(Input.KEY_RCONTROL)) {//Control Button pressed
+			if(input.isKeyPressed(Input.KEY_G)) 
+				showGridlines = !showGridlines;
+			if(input.isKeyPressed(Input.KEY_R))
+				showRuler = !showRuler;
+			if(input.isKeyPressed(Input.KEY_B))
+				showStatusBar = !showStatusBar;
 		}
 		
-		if((input.isKeyDown(Input.KEY_LCONTROL) || input.isKeyDown(Input.KEY_RCONTROL)) && input.isKeyPressed(Input.KEY_R)) {
-			showRuler = !showRuler;
-		}
-		
-		if((input.isKeyDown(Input.KEY_LCONTROL) || input.isKeyDown(Input.KEY_RCONTROL)) && input.isKeyPressed(Input.KEY_B)) {
-			showStatusBar = !showStatusBar;
-		}
-		
-		
-		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)) {
-			draw = true;
-			title = "Ok";
+		if(input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) && Store.getCurrentAction() == Actions.DRAW_WITH_PENCIL) {//Drag action
+			if(input.getMouseX() != mouseXClick && input.getMouseY() != mouseYClick)
+				v.add(new Vector2f(input.getMouseX(), input.getMouseY()));
+			
+			title = "Drag !";
 		} else {
-			draw = false;
+			title = "No Drag...";
+			Store.setCurrentAction(Actions.NONE);
 		}
-				
+		
+		if(Store.getCursorImage() != null) {
+			if(mouseY <= Sizes.SETTING_HEIGHT.getSize() + Sizes.TOOLKIT_HEIGHT.getSize()) {
+				app.setDefaultMouseCursor();
+			} else {
+				app.setMouseCursor(Store.getCursorImage(), 0, 24);
+			}
+		}
+		
 		app.setTitle(title + " - Paint");
 	}
 	
@@ -191,6 +200,8 @@ public class Test extends BasicGame {
 		
 		app.setShowFPS(false);
 		app.setIcon(Icons.LOGO.toString());
+		
+//		Display.setResizable(true);
 		
 		//For launching app
 		app.start();

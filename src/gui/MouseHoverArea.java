@@ -3,14 +3,25 @@ package gui;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
+import components.Store;
+import components.Tooltip;
 import constants.AppColors;
 
 public class MouseHoverArea {
 	/*
 	 * =============================
+	 * 			DATA 
+	 * =============================
+	*/
+	
+	private int mouseX, mouseY;
+	
+	/*
+	 * =============================
 	 * 			PROPS 
 	 * =============================
 	*/
+	
 	private boolean isHover = false;
 	//Graphic context
 	private Graphics gr;
@@ -28,18 +39,20 @@ public class MouseHoverArea {
 	 * 			CONSTRUCTOR 
 	 * ================================
 	*/
-	public MouseHoverArea(Graphics gr, String text, float posX, float posY, float width, float height) {
+	
+	public MouseHoverArea(String text, float posX, float posY, float width, float height) {
 		this.text = text;//drawString(text, posX, posY);
-		this.gr = gr;
+		this.gr = Store.getGr();
 		this.posX = posX;
 		this.posY = posY;
 		this.hoverAreaWidth = width + 8;
 		this.hoverAreaHeight = height + 8;
 	}
 	
-	public MouseHoverArea(Graphics gr, Image img, float posX, float posY, float width, float height) {
+	public MouseHoverArea(String text, Image img, float posX, float posY, float width, float height) {
+		this.text = text;
 		this.img = img;//gr.drawImage(img, posX, posY);
-		this.gr = gr;
+		this.gr = Store.getGr();
 		this.posX = posX;
 		this.posY = posY;
 		this.hoverAreaWidth = width + 8;
@@ -53,7 +66,11 @@ public class MouseHoverArea {
 	 * =============================
 	*/
 	
-	public void hoverListener(float mouseX, float mouseY) {
+	public void hoverListener() {
+		//Data mapping
+		mouseX = Store.getMouseX();
+		mouseY = Store.getMouseY();
+		
 		displayHoverableArea();
 		
 		if(
@@ -82,6 +99,9 @@ public class MouseHoverArea {
 		if(isHover) {
 			gr.setColor(AppColors.TRANSPARENTGRAY.getColor());
 			gr.fillRoundRect(posX - 4, posY - 4, hoverAreaWidth, hoverAreaHeight, 2);
+			
+			//if(img != null)
+				//(new Tooltip(text, posX, posY)).showTooltip(gr);
 		}
 	}
 	

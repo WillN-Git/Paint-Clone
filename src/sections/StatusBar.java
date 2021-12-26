@@ -1,14 +1,22 @@
 package sections;
 
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import components.Store;
 import constants.AppColors;
 import constants.Icons;
 import constants.Sizes;
 
 public class StatusBar {
+	/*
+	 * =============================
+	 * 			DATA 
+	 * =============================
+	*/
+	
+	private int mouseX, mouseY;
+	
 	/*
 	 * =============================
 	 * 			PROPS 
@@ -27,7 +35,11 @@ public class StatusBar {
 	 * 			METHODS 
 	 * =============================
 	*/
-	public void display(Graphics gr, int mouseX, int mouseY) throws SlickException {
+	public void display(Graphics gr) throws SlickException {
+		//Data mapping
+		mouseX = Store.getMouseX();
+		mouseY = Store.getMouseY();
+		
 		//Background
 		gr.setColor(AppColors.PALEGRAY.getColor());
 		gr.fillRect(0, TOP, WIDTH, HEIGHT);
@@ -35,7 +47,7 @@ public class StatusBar {
 		//Mouse position
 		gr.setColor(AppColors.TEXT.getColor());
 		
-		gr.drawImage(new Image(Icons.SMALL_POINTER.toString()), PADDING_H, TOP + 5);
+		gr.drawImage(Icons.SMALL_POINTER.getIcon(), PADDING_H, TOP + 5);
 		
 		if(
 			(40 < mouseX && mouseX < Sizes.SCREEN_DEFAULT_WIDTH.getSize() * 0.7f + 40) && 
@@ -48,9 +60,9 @@ public class StatusBar {
 			);
 		}
 		
-		gr.drawImage(new Image(Icons.SMALL_SELECTED.toString()), PADDING_H + 230, TOP + 7);
+		gr.drawImage(Icons.SMALL_SELECTED.getIcon(), PADDING_H + 230, TOP + 7);
 		
-		gr.drawImage(new Image(Icons.SMALL_BOARD.toString()), PADDING_H + 450, TOP + 7);
+		gr.drawImage(Icons.SMALL_BOARD.getIcon(), PADDING_H + 450, TOP + 7);
 		gr.drawString(
 			(int)(Sizes.SCREEN_DEFAULT_WIDTH.getSize() * 0.7f) + "x" + (int)Sizes.BOARD_HEIGHT.getSize() + "px",
 			PADDING_H + 470,

@@ -2,6 +2,7 @@ package components;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 import constants.AppColors;
 
@@ -11,7 +12,6 @@ public class Item {
 	 * 			PROPS 
 	 * =============================
 	*/
-	private float posX, posY;
 	private Image icon;
 	private String label;
 	private String shortcut;
@@ -23,22 +23,28 @@ public class Item {
 	 * ================================
 	*/
 	
-	public Item(Image icon, String label, String shortcut, float posX, float posY) {
+	public Item(Image icon, String label, String shortcut) {
 		this.icon = icon;
 		this.label = label;
 		this.shortcut = shortcut;
-		this.posX = posX;
-		this.posY = posY;
 	}
 	
 	/*
 	 * =============================
-	 * 			SETTERS 
+	 * 			GETTERS 
 	 * =============================
 	*/
 	
-	public void setIcon(Image icon) {
-		this.icon = icon;
+	public String getLabel() {
+		return this.label;
+	}
+	
+	public Image getIcon() {
+		return this.icon;
+	}
+	
+	public String getShortcut() {
+		return this.shortcut;
 	}
 	
 	
@@ -48,12 +54,14 @@ public class Item {
 	 * =============================
 	*/
 	
-	public void displayItem(Graphics gr) {
-		gr.setColor(AppColors.TEXT.getColor());
+	public void displayItem(Graphics gr, float posX, float posY, float end) {
+		gr.setColor(AppColors.WHITE.getColor());
+		
 		if(icon != null)
 			gr.drawImage(icon, posX, posY);
-		gr.drawString(label, posX + 10, posY);
-		gr.drawString(shortcut, posX + 40, posY);
+		
+		gr.drawString(label, posX + 20, posY);
+		gr.drawString(shortcut, end - (end*0.22f), posY);
 	}
 	
 }
