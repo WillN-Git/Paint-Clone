@@ -15,15 +15,15 @@ import gui.ClickableArea;
 import gui.MouseHoverArea;
 
 
-public class Toolkit {
+public abstract class Toolkit {
 	/*
 	 * =============================
 	 * 			DATA 
 	 * =============================
 	*/
 	
-	private Graphics gr;
-	private int mouseX, mouseY;
+	private static Graphics gr;
+	private static int mouseX, mouseY;
 	
 	/*
 	 * =============================
@@ -31,18 +31,18 @@ public class Toolkit {
 	 * =============================
 	*/
 	//Section dimension
-	private float WIDTH = Sizes.SCREEN_DEFAULT_WIDTH.getSize(),
+	private static float WIDTH = Sizes.SCREEN_DEFAULT_WIDTH.getSize(),
 				HEIGHT = Sizes.TOOLKIT_HEIGHT.getSize();
 	
-	private float PADDING_H = 25;
+	private static float PADDING_H = 25;
 	
-	private float TOP = Sizes.SETTING_HEIGHT.getSize(),
+	private static float TOP = Sizes.SETTING_HEIGHT.getSize(),
 				MIDDLE = TOP + 40 - 10,
 				BOTTOM = Sizes.SETTING_HEIGHT.getSize() + HEIGHT;
 	
-	private Color firstColor = AppColors.BLACK.getColor(), secondColor = AppColors.WHITE.getColor();
+	private static Color firstColor = AppColors.BLACK.getColor(), secondColor = AppColors.WHITE.getColor();
 	
-	private Color[][] colorset = {
+	private static Color[][] colorset = {
 				{
 					AppColors.BLACK.getColor(),
 					AppColors.GRAY.getColor(),
@@ -81,7 +81,7 @@ public class Toolkit {
 				}
 			};
 	
-	private Tool[] tools = {
+	private static Tool[] tools = {
 			//CLIPBOARD
 		new Tool("Cut", Icons.SMALL_CUT.toString(), PADDING_H + 65, TOP + 17, 16, 16, Actions.CUT),
 		new Tool("Paste", Icons.CLIPBOARD.toString(), PADDING_H, MIDDLE + 3, 32, 32, Actions.PASTE),
@@ -102,7 +102,7 @@ public class Toolkit {
 			//BRUSHES
 		new Tool("Brush", Icons.BRUSH.toString(), PADDING_H + 385, MIDDLE + 8, 24, 24, Actions.DRAW_WITH_BRUSH),
 			//SHAPES
-		new Tool("Shapes", Icons.SHAPES.toString(), PADDING_H + 470, MIDDLE + 8, 24, 24, Actions.DRAW_A_SHAPE),
+		new Tool("Shapes", Icons.SHAPES.toString(), PADDING_H + 470, MIDDLE + 8, 24, 24, Actions.SHOW_SHAPE_MENU),
 			//SIZE
 		new Tool("Sizes", Icons.METER.toString(), PADDING_H + 540, MIDDLE + 8, 24, 24, Actions.SET_STROKE_SIZE),
 			//COLORS
@@ -115,7 +115,7 @@ public class Toolkit {
 	 * 			METHODS 
 	 * =============================
 	*/
-	public void display() throws SlickException {
+	public static void display() throws SlickException {
 		//Data mapping
 		gr = Store.getGr();
 		mouseX = Store.getMouseX();
@@ -158,22 +158,22 @@ public class Toolkit {
 		displayMainColor(gr, secondColor, MIDDLE + 40);
 		
 		//Tools
-		for(int i=0; i<tools.length; i++) {
+		for(Tool t : tools) {
 			(new MouseHoverArea(
-					tools[i].getLabel(),
-					new Image(tools[i].getImgPath()),
-					tools[i].getPosX(),
-					tools[i].getPosY(),
-					tools[i].getWidth(),
-					tools[i].getHeight()
+					t.getLabel(),
+					new Image(t.getImgPath()),
+					t.getPosX(),
+					t.getPosY(),
+					t.getWidth(),
+					t.getHeight()
 			)).hoverListener();
 			
 			(new ClickableArea(
-					tools[i].getPosX(),
-					tools[i].getPosY(),
-					tools[i].getWidth(),
-					tools[i].getHeight(),
-					tools[i].getAction()
+					t.getPosX(),
+					t.getPosY(),
+					t.getWidth(),
+					t.getHeight(),
+					t.getAction()
 			)).clickableListener();
 		}
 		
@@ -189,17 +189,17 @@ public class Toolkit {
 		}
 	}
 	
-	public void lineDivider(Graphics gr, float x) {
+	public static void lineDivider(Graphics gr, float x) {
 		gr.setColor(new Color(200, 200, 200));
 		gr.drawLine(x, TOP + 6, x, BOTTOM - 8);
 	}
 	
-	public void categoryLabel(Graphics gr, String label, float x) { 
+	public static void categoryLabel(Graphics gr, String label, float x) { 
 		gr.setColor(AppColors.GRAY.getColor());
 		gr.drawString(label, x, BOTTOM - 20);
 	}
 	
-	public void displayMainColor(Graphics gr, Color color, float y) {
+	public static void displayMainColor(Graphics gr, Color color, float y) {
 		gr.setColor(color);
 		gr.fillOval(635 + 15 - 14, y - 14, 28, 28);
 		
@@ -207,11 +207,11 @@ public class Toolkit {
 		gr.drawOval(635 + 15 - 17.5f, y - 17.5f, 35, 35);
 	}
 	
-	public void setFirstColor(Color newColor) {
-		this.firstColor = newColor;
+	public static void setFirstColor(Color newColor) {
+		firstColor = newColor;
 	}
 	
-	public void setSecondColor(Color newColor) {
-		this.secondColor = newColor;
+	public static void setSecondColor(Color newColor) {
+		secondColor = newColor;
 	}
 }

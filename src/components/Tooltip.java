@@ -34,7 +34,10 @@ public class Tooltip {
 	*/
 	
 	public void showTooltip(Graphics gr) {
+		gr.setColor(AppColors.LIGHTGOLD.getColor());
+		gr.fillRect(posX - 4, posY - 20, label.length() * 10.5f, 20);
+		
 		gr.setColor(AppColors.TEXT.getColor());
-		gr.drawString(label, posX, posY);
+		gr.drawString(label, posX, posY - 20);
 	}
 }

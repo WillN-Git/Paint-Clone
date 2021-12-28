@@ -10,10 +10,12 @@ public enum AppColors {
 	LIGHTGRAY(0xffc3c3c3),
 	LIGHTYELLOW(0xffefe4b0),
 	LIGHTTURQUOISE(0xff99d9ea),
+	LIGHTGOLD(0x40ffc90e),
 	
 	//DARK
 	BLACK(0xff333333),
 	DARKRED(0xff880015),
+	DARKWHITE(0xfffafafa),
 	
 	//PALE
 	PALEGRAY(0xfff9f1ee),

@@ -26,6 +26,17 @@ public enum Icons {
 	BW_FULLSCREEN("001-fullscreen.png"),
 	BW_ZO0MBOARD("002-fullscreen-1.png"),
 	
+	BW_HEXAGON("001-hexagon.png"),
+	BW_RIGHT_TRIANGLE("002-triangle.png"),
+	BW_POLYGON("003-square.png"),
+	BW_OVAL("004-oval.png"),
+	BW_CURVE("005-line.png"),
+	BW_LINE("006-line-segemnt.png"),
+	BW_RECTANGLE("007-rectangular-geometrical-shape-outline.png"),
+	BW_ROUND_RECTANGLE("008-rounded-rectangle.png"),
+	BW_TRIANGLE("009-triangle-1.png"),
+	BW_PENTAGON("010-pentagon.png"),
+	
 	//NORMAL
 	BACK("back.png"),
 	NEXT("next.png"),

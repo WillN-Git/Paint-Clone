@@ -100,8 +100,7 @@ public class MouseHoverArea {
 			gr.setColor(AppColors.TRANSPARENTGRAY.getColor());
 			gr.fillRoundRect(posX - 4, posY - 4, hoverAreaWidth, hoverAreaHeight, 2);
 			
-			//if(img != null)
-				//(new Tooltip(text, posX, posY)).showTooltip(gr);
+			//(new Tooltip(text, posX, posY)).showTooltip(gr);
 		}
 	}
 	

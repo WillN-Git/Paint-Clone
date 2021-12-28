@@ -8,26 +8,26 @@ import constants.AppColors;
 import constants.Icons;
 import constants.Sizes;
 
-public class StatusBar {
+public abstract class StatusBar {
 	/*
 	 * =============================
 	 * 			DATA 
 	 * =============================
 	*/
 	
-	private int mouseX, mouseY;
+	private static int mouseX, mouseY;
 	
 	/*
 	 * =============================
 	 * 			PROPS 
 	 * =============================
 	*/
-	private float WIDTH = Sizes.SCREEN_DEFAULT_WIDTH.getSize(),
+	private static float WIDTH = Sizes.SCREEN_DEFAULT_WIDTH.getSize(),
 				HEIGHT = Sizes.STATUSBAR_HEIGHT.getSize();
 	
-	private float PADDING_H = 10;
+	private static float PADDING_H = 10;
 	
-	private float TOP = Sizes.SCREEN_DEFAULT_HEIGHT.getSize() - HEIGHT;
+	private static float TOP = Sizes.SCREEN_DEFAULT_HEIGHT.getSize() - HEIGHT;
 	
 	
 	/*
@@ -35,7 +35,7 @@ public class StatusBar {
 	 * 			METHODS 
 	 * =============================
 	*/
-	public void display(Graphics gr) throws SlickException {
+	public static void display(Graphics gr) throws SlickException {
 		//Data mapping
 		mouseX = Store.getMouseX();
 		mouseY = Store.getMouseY();
@@ -54,7 +54,7 @@ public class StatusBar {
 			(Sizes.SETTING_HEIGHT.getSize() + Sizes.TOOLKIT_HEIGHT.getSize() + 40 < mouseY && mouseY < Sizes.SCREEN_DEFAULT_HEIGHT.getSize() - HEIGHT)
 		) {
 			gr.drawString(
-				mouseX + "," + mouseY,
+				(mouseX - 40) + "," + (int)(mouseY - (Sizes.SETTING_HEIGHT.getSize() + Sizes.TOOLKIT_HEIGHT.getSize() + 40)) + "px",
 				PADDING_H + 20,
 				TOP + 5
 			);

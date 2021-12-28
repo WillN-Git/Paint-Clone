@@ -55,7 +55,7 @@ public class Item {
 	*/
 	
 	public void displayItem(Graphics gr, float posX, float posY, float end) {
-		gr.setColor(AppColors.WHITE.getColor());
+		gr.setColor(AppColors.TEXT.getColor());
 		
 		if(icon != null)
 			gr.drawImage(icon, posX, posY);

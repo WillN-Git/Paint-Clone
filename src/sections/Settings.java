@@ -10,15 +10,15 @@ import gui.ClickableArea;
 import gui.MouseHoverArea;
 
 
-public class Settings {
+public abstract class Settings {
 	/*
 	 * =============================
 	 * 			DATA 
 	 * =============================
 	*/
 	
-	private Graphics gr;
-	private int mouseX, mouseY;
+	private static Graphics gr;
+	private static int mouseX, mouseY;
 	
 	/*
 	 * =============================
@@ -26,19 +26,20 @@ public class Settings {
 	 * =============================
 	*/
 	//Section dimensions
-	private float WIDTH = Sizes.SCREEN_DEFAULT_WIDTH.getSize(),
+	private static float WIDTH = Sizes.SCREEN_DEFAULT_WIDTH.getSize(),
 				HEIGHT = Sizes.SETTING_HEIGHT.getSize();
 	
-	private float PADDING_H = 10;
+	private static float PADDING_H = 10;
 	
-	private float MIDDLE = 15;	
+	private static float MIDDLE = 15;	
 	
 	/*
 	 * =============================
 	 * 			METHODS 
 	 * =============================
 	*/
-	public void display() throws SlickException {
+	
+	public static void display() throws SlickException {
 		//Data mapping
 		gr = Store.getGr();
 		mouseX = Store.getMouseX();
@@ -87,7 +88,7 @@ public class Settings {
 				MIDDLE,
 				"File".length() * 10,
 				20,
-				Actions.SHOW_MENU
+				Actions.SHOW_FILE_MENU
 		)).clickableListener();
 		
 		(new MouseHoverArea(
@@ -103,7 +104,7 @@ public class Settings {
 				MIDDLE,
 				"View".length() * 10,
 				20,
-				Actions.SHOW_MENU
+				Actions.SHOW_VIEW_MENU
 		)).clickableListener();
 		
 		//Feedback
@@ -117,7 +118,7 @@ public class Settings {
 		)).hoverListener();		
 	}
 	
-	public void lineDivider(Graphics gr, float x) {
+	public static void lineDivider(Graphics gr, float x) {
 		gr.setColor(new Color(200, 200, 200));
 		gr.drawLine(x, MIDDLE - 5, x, MIDDLE + 25);
 	}

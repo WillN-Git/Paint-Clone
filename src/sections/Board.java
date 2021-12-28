@@ -11,14 +11,14 @@ import constants.Icons;
 import constants.Images;
 import constants.Sizes;
 
-public class Board {
+public abstract class Board {
 	/*
 	 * =============================
 	 * 			DATA 
 	 * =============================
 	*/
 	
-	private Graphics gr;
+	private static Graphics gr;
 	
 	/*
 	 * =============================
@@ -26,12 +26,12 @@ public class Board {
 	 * =============================
 	*/
 	//Section Dimension
-	private float WIDTH = Sizes.SCREEN_DEFAULT_WIDTH.getSize(),
+	private static float WIDTH = Sizes.SCREEN_DEFAULT_WIDTH.getSize(),
 				HEIGHT = Sizes.BOARD_HEIGHT.getSize();
 	
-	private float PADDING_H = 10;
+	private static float PADDING_H = 10;
 	
-	private float MIDDLE = 20,
+	private static float MIDDLE = 20,
 				TOP = Sizes.SETTING_HEIGHT.getSize() + Sizes.TOOLKIT_HEIGHT.getSize(),
 				LEFT = 0;
 	
@@ -40,7 +40,7 @@ public class Board {
 	 * 			METHODS 
 	 * =============================
 	*/
-	public void display(boolean showRuler) throws SlickException {
+	public static void display(boolean showRuler) throws SlickException {
 		//Data mapping
 		gr = Store.getGr();
 		

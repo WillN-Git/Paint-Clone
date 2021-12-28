@@ -6,6 +6,11 @@ public enum Actions {
 	SHOW_TOOLTIP,
 	DRAW,
 	
+	//=============== MENU
+	SHOW_FILE_MENU,
+	SHOW_VIEW_MENU,
+	SHOW_SHAPE_MENU,
+	
 	//=============== TOOLKIT
 	CUT,
 	COPY,
@@ -25,6 +30,18 @@ public enum Actions {
 	DRAW_A_SHAPE,
 	SET_STROKE_SIZE,
 	CHOOSE_A_COLOR,
+	
+	//================ TOOLS
+	DRAW_LINE,
+	DRAW_CURVE,
+	DRAW_OVAL,
+	DRAW_RECTANGLE,
+	DRAW_POLYGON,
+	DRAW_ROUND_RECTANGLE,
+	DRAW_TRIANGLE,
+	DRAW_RIGHT_TRIANGLE,
+	DRAW_PENTAGON,
+	DRAW_HEXAGON,
 	
 	//================= 
 	NONE

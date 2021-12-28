@@ -70,10 +70,8 @@ public class ClickableArea {
 			gr.setColor(AppColors.TRANSPARENTGRAY.getColor());
 			gr.fillRoundRect(posX - 4, posY - 4, clickableAreaWidth, clickableAreaHeight, 2);
 			
-			//launch the "action"
-			(new ActionManager(posX, posY, clickableAreaWidth, clickableAreaHeight)).doThis(action);
+			//Launch the "action"
+			Store.setCurrentAction(action);
 		}
 	}
-	
-
 }

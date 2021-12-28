@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Vector2f;
 
 import constants.Actions;
 
@@ -15,36 +16,22 @@ public abstract class Store {
 	 * =============================
 	*/
 	
+	//============ Basics
 	private static Graphics gr;
 	private static int mouseX, mouseY,
 					   mouseXClick, mouseYClick;
-	private static ArrayList<Shape> shapes = new ArrayList<>();
 	
-	private static Actions previousAction, currentAction;
+	//============ Shape
+	private static int start_shape_from_x, start_shape_from_y;
+	private static boolean isDrawing = false, drawFinished = false;
+	private static ArrayList<Shape> shapes = new ArrayList<>();
+	private static ArrayList<Vector2f> setOfPoints = new ArrayList<>();
+	
+	//============ Actions
+	private static Actions previousAction = Actions.NONE,
+							currentAction = Actions.NONE;
 	
 	private static Image cursorImage = null;
-	
-	private static Item[] viewItems = {
-		new Item(null, "100 %", ""),
-		new Item(null, "Rulers", "Ctrl+R"),
-		new Item(null, "Gridlines", "Ctrl+G"),
-		new Item(null, "Status Bar", "Ctrl+B"),
-		new Item(null, "FullScreen", "")
-	};
-	
-	private static Item[] fileItems = {
-			new Item(null, "New", "Ctrl+N"),
-			new Item(null, "Open", "Ctrl+O"),
-			new Item(null, "Recent", "     >"),
-			new Item(null, "Save", "Ctrl+S"),
-			new Item(null, "Save as", ""),
-			new Item(null, "Print", ">"),
-			//new Item(null, "From scenner or camera", ">"),
-			new Item(null, "Send", ">"),
-			//new Item(null, "Set as Desktop Background", ">"),
-			new Item(null, "Image properties", "Ctrl+E"),
-			new Item(null, "Settings", "")
-		};
 	
 	
 	/*
@@ -77,6 +64,10 @@ public abstract class Store {
 		return shapes;
 	}
 	
+	public static ArrayList<Vector2f> getSetOfPoints() {
+		return setOfPoints;
+	}
+	
 	public static Actions getPreviousAction() {
 		return previousAction;
 	}
@@ -85,16 +76,24 @@ public abstract class Store {
 		return currentAction;
 	}
 	
-	public static Item[] getFileItems() {
-		return fileItems;
-	}
-	
-	public static Item[] getViewItems() {
-		return viewItems;
-	}
-	
 	public static Image getCursorImage() {
 		return cursorImage;
+	}
+	
+	public static int getStart_shape_from_x() {
+		return start_shape_from_x;
+	}
+	
+	public static int getStart_shape_from_y() {
+		return start_shape_from_y;
+	}
+	
+	public static boolean getIsDrawing() {
+		return isDrawing;
+	}
+	
+	public static boolean getDrawFinished() {
+		return drawFinished;
 	}
 	
 	/*
@@ -125,7 +124,14 @@ public abstract class Store {
 	
 	public static void addShape(Shape shape) {
 		shapes.add(shape);
-		System.out.print("\nShape Added !\n");
+	}
+	
+	public static void addPoint(Vector2f point) {
+		setOfPoints.add(point);
+	}
+	
+	public static void removeAllPoints() {
+		setOfPoints = new ArrayList<>();
 	}
 	
 	public static void setCurrentAction(Actions action) {
@@ -135,5 +141,21 @@ public abstract class Store {
 	
 	public static void setCursorImage(Image img) {
 		cursorImage = img;
+	}
+	
+	public static void setStart_shape_from_x(int start_shape_from_x) {
+		Store.start_shape_from_x = start_shape_from_x;
+	}
+	
+	public static void setStart_shape_from_y(int start_shape_from_y) {
+		Store.start_shape_from_y = start_shape_from_y;
+	}
+	
+	public static void setIsDrawing(boolean isDrawing) {
+		Store.isDrawing = isDrawing;
+	}
+	
+	public static void setDrawFinished(boolean drawFinished) {
+		Store.drawFinished = drawFinished;
 	}
 }
