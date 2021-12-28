@@ -2,12 +2,14 @@ package components;
 
 import java.util.ArrayList;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
 import constants.Actions;
+import constants.AppColors;
 
 public abstract class Store {
 	/*
@@ -24,8 +26,11 @@ public abstract class Store {
 	//============ Shape
 	private static int start_shape_from_x, start_shape_from_y;
 	private static boolean isDrawing = false, drawFinished = false;
-	private static ArrayList<Shape> shapes = new ArrayList<>();
+	private static ArrayList<Graphic> graphics = new ArrayList<>();
 	private static ArrayList<Vector2f> setOfPoints = new ArrayList<>();
+	private static int shapeWeight = 10;
+	private static Color primaryColor = AppColors.BLACK.getColor(),
+						secondColor = AppColors.WHITE.getColor();
 	
 	//============ Actions
 	private static Actions previousAction = Actions.NONE,
@@ -60,10 +65,10 @@ public abstract class Store {
 		return mouseYClick;
 	}
 	
-	public static ArrayList<Shape> getShapes() {
-		return shapes;
+	public static ArrayList<Graphic> getGraphics() {
+		return graphics;
 	}
-	
+
 	public static ArrayList<Vector2f> getSetOfPoints() {
 		return setOfPoints;
 	}
@@ -96,6 +101,18 @@ public abstract class Store {
 		return drawFinished;
 	}
 	
+	public static Color getPrimaryColor() {
+		return primaryColor;
+	}
+	
+	public static Color getSecondColor() {
+		return secondColor;
+	}
+	
+	public static int getShapeWeight() {
+		return shapeWeight;
+	}
+	
 	/*
 	 * =============================
 	 * 			SETTERS
@@ -122,10 +139,10 @@ public abstract class Store {
 		Store.mouseYClick = mouseYClick;
 	}
 	
-	public static void addShape(Shape shape) {
-		shapes.add(shape);
+	public static void addGraphic(Graphic graphic) {
+		graphics.add(graphic);
 	}
-	
+
 	public static void addPoint(Vector2f point) {
 		setOfPoints.add(point);
 	}
@@ -157,5 +174,17 @@ public abstract class Store {
 	
 	public static void setDrawFinished(boolean drawFinished) {
 		Store.drawFinished = drawFinished;
+	}
+	
+	public static void setPrimaryColor(Color newPrimaryColor) {
+		Store.primaryColor = newPrimaryColor;
+	}
+	
+	public static void setSecondColor(Color newSecondColor) {
+		Store.secondColor = newSecondColor;
+	}
+	
+	public static void setShapeWeight(int shapeWeight) {
+		Store.shapeWeight = shapeWeight;
 	}
 }

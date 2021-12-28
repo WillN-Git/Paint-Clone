@@ -80,7 +80,8 @@ public class MenuManager {
 				showViewMenu();
 				break;
 			case SHOW_SHAPE_MENU:
-				showShapeMenu();
+				if(Store.getPreviousAction() != Actions.CHOOSE_A_COLOR)
+					showShapeMenu();
 				break;
 		}
 	}

@@ -7,12 +7,8 @@ import org.newdawn.slick.SlickException;
 
 import components.Store;
 import components.Tool;
-import constants.Actions;
-import constants.AppColors;
-import constants.Icons;
-import constants.Sizes;
-import gui.ClickableArea;
-import gui.MouseHoverArea;
+import constants.*;
+import gui.*;
 
 
 public abstract class Toolkit {
@@ -39,8 +35,6 @@ public abstract class Toolkit {
 	private static float TOP = Sizes.SETTING_HEIGHT.getSize(),
 				MIDDLE = TOP + 40 - 10,
 				BOTTOM = Sizes.SETTING_HEIGHT.getSize() + HEIGHT;
-	
-	private static Color firstColor = AppColors.BLACK.getColor(), secondColor = AppColors.WHITE.getColor();
 	
 	private static Color[][] colorset = {
 				{
@@ -154,8 +148,8 @@ public abstract class Toolkit {
 		categoryLabel(gr, "Colors", PADDING_H + 715.5f);
 		
 		//Primary and secondary
-		displayMainColor(gr, firstColor, TOP + 28);
-		displayMainColor(gr, secondColor, MIDDLE + 40);
+		displayMainColor(gr, Store.getPrimaryColor(), TOP + 28);
+		displayMainColor(gr, Store.getSecondColor(), MIDDLE + 40);
 		
 		//Tools
 		for(Tool t : tools) {
@@ -185,6 +179,15 @@ public abstract class Toolkit {
 				gr.fillOval(690 + j - 7.5f, TOP + margin + i - 7.5f, 15, 15);
 				gr.setColor(AppColors.GRAY.getColor());
 				gr.drawOval(690 + j - 7.5f, TOP + margin + i - 7.5f, 15, 15);
+				
+				(new ClickableArea(
+						690 + j - 7.5f,
+						TOP + margin + i - 7.5f,
+						15,
+						15,
+						Store.getPreviousAction(),
+						colorset[i / margin][j / margin]
+				)).clickableListener();
 			}
 		}
 	}
@@ -205,13 +208,5 @@ public abstract class Toolkit {
 		
 		gr.setColor(AppColors.DARKRED.getColor());
 		gr.drawOval(635 + 15 - 17.5f, y - 17.5f, 35, 35);
-	}
-	
-	public static void setFirstColor(Color newColor) {
-		firstColor = newColor;
-	}
-	
-	public static void setSecondColor(Color newColor) {
-		secondColor = newColor;
 	}
 }

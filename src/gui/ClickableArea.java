@@ -1,9 +1,7 @@
 package gui;
 
-import java.util.ArrayList;
-
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import components.Store;
@@ -24,6 +22,8 @@ public class ClickableArea {
 	//Hover Area Dimensions
 	private float clickableAreaWidth, clickableAreaHeight;
 	
+	private Color color = null;
+	
 	private Actions action;
 	private int mouseX, mouseY;
 	
@@ -32,6 +32,7 @@ public class ClickableArea {
 	 * 			CONSTRUCTOR 
 	 * ================================
 	*/
+	
 	public ClickableArea(float posX, float posY, float width, float height, Actions action) {
 		this.gr = Store.getGr();
 		this.posX = posX;
@@ -39,6 +40,11 @@ public class ClickableArea {
 		this.clickableAreaWidth = width + 8;
 		this.clickableAreaHeight = height + 8;
 		this.action = action;
+	}
+	
+	public ClickableArea(float posX, float posY, float width, float height, Actions action, Color color) {
+		this(posX, posY, width, height, action);
+		this.color = color;
 	}
 	
 	
@@ -66,12 +72,17 @@ public class ClickableArea {
 	
 	private void clickAction() throws SlickException {	
 		if(isClicked) {
-			//Rectangle
-			gr.setColor(AppColors.TRANSPARENTGRAY.getColor());
-			gr.fillRoundRect(posX - 4, posY - 4, clickableAreaWidth, clickableAreaHeight, 2);
+			if(color == null) {
+				//Rectangle
+				gr.setColor(AppColors.TRANSPARENTGRAY.getColor());
+				gr.fillRoundRect(posX - 4, posY - 4, clickableAreaWidth, clickableAreaHeight, 2);
+			}
 			
 			//Launch the "action"
 			Store.setCurrentAction(action);
+			
+			if(color != null)
+				Store.setPrimaryColor(color);
 		}
 	}
 }

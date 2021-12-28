@@ -8,10 +8,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Curve;
-import org.newdawn.slick.geom.Path;
-import org.newdawn.slick.geom.Polygon;
-import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 
 import components.MenuManager;
@@ -93,10 +89,6 @@ public class Test extends BasicGame {
 		Store.setMouseX(input.getMouseX());
 		Store.setMouseY(input.getMouseY());
 		
-		//currentTime++;
-		
-		//System.out.print("\n" + currentTime);
-		
 		//The natural position of the mouse
 		mouseX = Store.getMouseX();
 		mouseY = Store.getMouseY();
@@ -123,7 +115,7 @@ public class Test extends BasicGame {
 			
 			switch ( Store.getCurrentAction() ) {//To send drag information to the store
 			
-				case DRAW_WITH_PENCIL : case DRAW_WITH_BRUSH : case ERASE :
+				case DRAW_WITH_PENCIL : case DRAW_WITH_BRUSH : case ERASE : case DRAW_RECTANGLE :
 					Store.setDrawFinished(false);
 					
 					if(input.getMouseY() > Sizes.SETTING_HEIGHT.getSize() +  Sizes.TOOLKIT_HEIGHT.getSize()) {
@@ -136,7 +128,6 @@ public class Test extends BasicGame {
 						Store.addPoint(new Vector2f(input.getMouseX(), input.getMouseY()));
 					}
 				break;
-				
 			}
 			
 			title = "Drag !";//Test
@@ -149,6 +140,7 @@ public class Test extends BasicGame {
 			}
 		}
 		
+		//To change the cursor when the user chooses a tool
 		if(Store.getCursorImage() != null) {
 			if(mouseY <= Sizes.SETTING_HEIGHT.getSize() + Sizes.TOOLKIT_HEIGHT.getSize()) {
 				app.setDefaultMouseCursor();
@@ -182,10 +174,5 @@ public class Test extends BasicGame {
 		gr.setColor(new Color(230, 230, 230));
 		gr.drawLine(0, y, WIDTH, y);
 	}
-	
-	//DRAFT
-	public void drawRectangle(Graphics gr, float mouseXClick, float mouseYClick, float mouseX, float mouseY) {
-		gr.setColor(new Color(255, 0, 0));
-		gr.drawRect(mouseXClick, mouseYClick, -(mouseXClick - mouseX), (mouseY - mouseYClick));
-	}
+
 }

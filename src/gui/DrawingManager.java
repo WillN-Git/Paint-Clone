@@ -13,7 +13,6 @@ public class DrawingManager {
 	 * =============================
 	*/
 	private Graphics gr;
-	
 	private Shapes s;
 	
 	/*
