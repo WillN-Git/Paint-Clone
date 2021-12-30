@@ -25,9 +25,9 @@ public class Scroller {
 	*/
 	
 	//To place the scroller
-	private float posX = Sizes.SCREEN_DEFAULT_WIDTH.getSize() - 8,
-				  posY = Sizes.SETTING_HEIGHT.getSize() + Sizes.TOOLKIT_HEIGHT.getSize() + 3,
-				  defaultPosY = Sizes.SETTING_HEIGHT.getSize() + Sizes.TOOLKIT_HEIGHT.getSize() + 3;
+		private float posX = Sizes.SCREEN_DEFAULT_WIDTH.getSize() - 8,
+					  posY = Sizes.SETTING_HEIGHT.getSize() + Sizes.TOOLKIT_HEIGHT.getSize() + 3,
+					  defaultPosY = Sizes.SETTING_HEIGHT.getSize() + Sizes.TOOLKIT_HEIGHT.getSize() + 3;
 	
 	private float scrollTo, lastScroll;
 	
@@ -39,9 +39,9 @@ public class Scroller {
 	
 	public void display() throws SlickException {
 		//Data retrieval
-		gr = Store.getGr();
-		mouseY = Store.getMouseY();
-		mouseYClick = Store.getMouseYClick();
+			gr = Store.getGr();
+			mouseY = Store.getMouseY();
+			mouseYClick = Store.getMouseYClick();
 		
 		if(Store.getCurrentAction() == Actions.SCROLL && Store.getIsDragging()) {
 			scrollTo = -( mouseYClick - mouseY );
@@ -64,15 +64,15 @@ public class Scroller {
 		}
 		
 		//The scroller
-		gr.setColor(AppColors.LIGHTGRAY.getColor());
-		gr.drawRoundRect(posX, posY + scrollTo, 5, 130, 10);
-		(new ClickableArea(
-			posX,
-			posY + scrollTo,
-			5,
-			130,
-			Actions.SCROLL
-		)).clickableListener();
+			gr.setColor(AppColors.LIGHTGRAY.getColor());
+			gr.drawRoundRect(posX, posY + scrollTo, 5, 130, 10);
+			(new ClickableArea(
+				posX,
+				posY + scrollTo,
+				5,
+				130,
+				Actions.SCROLL
+			)).clickableListener();
 	}
 	
 }

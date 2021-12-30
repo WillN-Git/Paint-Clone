@@ -12,6 +12,17 @@ import constants.Actions;
 import constants.AppColors;
 import constants.Sizes;
 
+/**
+ * 
+ * ========================= THE APPLICATION'S DATABASE ============================= 
+ * The store is responsible for keeping all the data
+ * Not all the data. But the ones that are shared by related components.
+ * 
+ * Communication will therefore be easier, because no matter what the hierarchical level 
+ * 		of the component in the data flow, it will have quick and easy access to the 
+ * 		desired information. 
+ */
+
 public abstract class Store {
 	/*
 	 * =============================
@@ -20,28 +31,27 @@ public abstract class Store {
 	*/
 	
 	//============ Basics
-	private static Graphics gr;
-	private static int mouseX, mouseY,
-					   mouseXClick, mouseYClick;
-	private static boolean ctrlButtonPressed = false;
+		private static Graphics gr;
+		private static int mouseX, mouseY,
+						   mouseXClick, mouseYClick;
+		private static boolean ctrlButtonPressed = false;
 	
 	//============ Shape
-	private static int start_shape_from_x, start_shape_from_y;
-	private static boolean isDrawing = false, drawFinished = false;
-	private static ArrayList<Graphic> graphics = new ArrayList<>(),
-									  removedGraphics = new ArrayList<>();
-	private static ArrayList<Vector2f> setOfPoints = new ArrayList<>();
-	private static int shapeWeight = 10;
-	private static Color primaryColor = AppColors.BLACK.getColor(),
-						secondColor = AppColors.WHITE.getColor();
+		private static boolean isDrawing = false, drawFinished = false;
+		private static ArrayList<Graphic> graphics = new ArrayList<>(),
+										  removedGraphics = new ArrayList<>();
+		private static ArrayList<Vector2f> setOfPoints = new ArrayList<>();
+		private static int shapeWeight = 10;
+		private static Color primaryColor = AppColors.BLACK.getColor(),
+							secondColor = AppColors.WHITE.getColor();
 	
 	//============ Actions
-	private static Actions previousAction = Actions.NONE,
-							currentAction = Actions.NONE;
-	private static boolean isDragging = false;
-	private static float scrollTranslation = 0;
-	
-	private static Image cursorImage = null;
+		private static Actions previousAction = Actions.NONE,
+								currentAction = Actions.NONE;
+		private static boolean isDragging = false;
+		private static float scrollTranslation = 0;
+		
+		private static Image cursorImage = null;
 	
 	
 	/*
@@ -92,14 +102,6 @@ public abstract class Store {
 	
 	public static Image getCursorImage() {
 		return cursorImage;
-	}
-	
-	public static int getStart_shape_from_x() {
-		return start_shape_from_x;
-	}
-	
-	public static int getStart_shape_from_y() {
-		return start_shape_from_y;
 	}
 	
 	public static boolean getIsDrawing() {
@@ -194,14 +196,6 @@ public abstract class Store {
 	
 	public static void setCursorImage(Image img) {
 		cursorImage = img;
-	}
-	
-	public static void setStart_shape_from_x(int start_shape_from_x) {
-		Store.start_shape_from_x = start_shape_from_x;
-	}
-	
-	public static void setStart_shape_from_y(int start_shape_from_y) {
-		Store.start_shape_from_y = start_shape_from_y;
 	}
 	
 	public static void setIsDrawing(boolean isDrawing) {

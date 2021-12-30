@@ -25,14 +25,14 @@ public class MouseHoverArea {
 	private boolean isHover = false;
 	
 	//Hover Area Position
-	private float posX, posY;
+		private float posX, posY;
 	
 	//Hover Area Dimensions
-	private float hoverAreaWidth, hoverAreaHeight;
+		private float hoverAreaWidth, hoverAreaHeight;
 	
 	//Content
-	private String text = null;
-	private Image img = null;
+		private String text = null;
+		private Image img = null;
 	
 	
 	/*
@@ -69,8 +69,8 @@ public class MouseHoverArea {
 	
 	public void hoverListener() {
 		//Data retrieval
-		mouseX = Store.getMouseX();
-		mouseY = Store.getMouseY();
+			mouseX = Store.getMouseX();
+			mouseY = Store.getMouseY();
 		
 		displayHoverableArea();
 		

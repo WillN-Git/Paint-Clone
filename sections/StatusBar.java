@@ -8,6 +8,12 @@ import constants.AppColors;
 import constants.Icons;
 import constants.Sizes;
 
+/**
+ * 
+ * Responsible for rendering all the component's status of the application
+ * 
+ */
+
 public abstract class StatusBar {
 	/*
 	 * =============================
@@ -24,8 +30,9 @@ public abstract class StatusBar {
 	 * =============================
 	*/
 	
-	private static float WIDTH = Sizes.SCREEN_DEFAULT_WIDTH.getSize(),
-						HEIGHT = Sizes.STATUSBAR_HEIGHT.getSize();
+	//Section dimensions
+		private static float WIDTH = Sizes.SCREEN_DEFAULT_WIDTH.getSize(),
+							HEIGHT = Sizes.STATUSBAR_HEIGHT.getSize();
 	
 	private static float PADDING_H = 10;
 	
@@ -40,18 +47,19 @@ public abstract class StatusBar {
 	
 	public static void display() throws SlickException {
 		//Data retrieval
-		gr = Store.getGr();
-		mouseX = Store.getMouseX();
-		mouseY = Store.getMouseY();
+			gr = Store.getGr();
+			mouseX = Store.getMouseX();
+			mouseY = Store.getMouseY();
 		
 		//Background
-		gr.setColor(AppColors.PALEGRAY.getColor());
-		gr.fillRect(0, TOP, WIDTH, HEIGHT);
+			gr.setColor(AppColors.PALEGRAY.getColor());
+			gr.fillRect(0, TOP, WIDTH, HEIGHT);
 		
 		//Mouse position
-		gr.setColor(AppColors.TEXT.getColor());
+			gr.setColor(AppColors.TEXT.getColor());
 		
 		gr.drawImage(Icons.SMALL_POINTER.getIcon(), PADDING_H, TOP + 5);
+		
 		
 		if(  		/* ===================== CONDITION ===================== */
 			(40 < mouseX && mouseX < Sizes.SCREEN_DEFAULT_WIDTH.getSize() * 0.7f + 40) && 

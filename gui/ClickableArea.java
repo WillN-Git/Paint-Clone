@@ -17,11 +17,11 @@ public class ClickableArea {
 	
 	private boolean isClicked = false;
 	//Graphic context
-	private Graphics gr;
+		private Graphics gr;
 	//Hover Area Position
-	private float posX, posY;
+		private float posX, posY;
 	//Hover Area Dimensions
-	private float clickableAreaWidth, clickableAreaHeight;
+		private float clickableAreaWidth, clickableAreaHeight;
 	
 	private Color color = null;
 	
@@ -63,8 +63,8 @@ public class ClickableArea {
 	
 	public void clickableListener() throws SlickException {
 		//Data retrieval
-		mouseX = Store.getMouseXClick();
-		mouseY = Store.getMouseYClick();
+			mouseX = Store.getMouseXClick();
+			mouseY = Store.getMouseYClick();
 		
 		
 		if(
@@ -81,12 +81,12 @@ public class ClickableArea {
 		if(isClicked) {
 			if(color == null) {
 				//Rectangle
-				gr.setColor(AppColors.TRANSPARENTGRAY.getColor());
-				gr.fillRoundRect(posX - 4, posY - 4, clickableAreaWidth, clickableAreaHeight, 2);
+					gr.setColor(AppColors.TRANSPARENTGRAY.getColor());
+					gr.fillRoundRect(posX - 4, posY - 4, clickableAreaWidth, clickableAreaHeight, 2);
 			}
 			
 			//Launch the "action"
-			Store.setCurrentAction(action);
+				Store.setCurrentAction(action);
 			
 			if(color != null)
 				Store.setPrimaryColor(color);

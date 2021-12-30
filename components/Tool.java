@@ -8,6 +8,7 @@ public class Tool {
 	 * 			PROPS 
 	 * =============================
 	*/
+	
 	private float posX, posY;
 	private String imgPath;
 	private float width, height;
@@ -100,5 +101,4 @@ public class Tool {
 	public void setDimension(float width, float height) {
 		this.width = width;
 	}
-	
 }

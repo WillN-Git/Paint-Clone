@@ -10,6 +10,11 @@ import components.Tool;
 import constants.*;
 import gui.*;
 
+/**
+ * 
+ * Responsible for rendering all the tools in the application
+ * 
+ */
 
 public abstract class Toolkit {
 	/*
@@ -28,8 +33,8 @@ public abstract class Toolkit {
 	*/
 	
 	//Section dimension
-	private static float WIDTH = Sizes.SCREEN_DEFAULT_WIDTH.getSize(),
-						HEIGHT = Sizes.TOOLKIT_HEIGHT.getSize();
+		private static float WIDTH = Sizes.SCREEN_DEFAULT_WIDTH.getSize(),
+							HEIGHT = Sizes.TOOLKIT_HEIGHT.getSize();
 	
 	private static float PADDING_H = 25;
 	
@@ -113,86 +118,86 @@ public abstract class Toolkit {
 	
 	public static void display() throws SlickException {
 		//Data retrieval
-		gr = Store.getGr();
-		mouseX = Store.getMouseX();
-		mouseY = Store.getMouseY();
+			gr = Store.getGr();
+			mouseX = Store.getMouseX();
+			mouseY = Store.getMouseY();
 		
 		
 		//Background
-		gr.setColor(AppColors.SMOOTHGRAY.getColor());
-		gr.fillRect(0, TOP, WIDTH, HEIGHT);
+			gr.setColor(AppColors.SMOOTHGRAY.getColor());
+			gr.fillRect(0, TOP, WIDTH, HEIGHT);
 		
 		//Clipboard
-		categoryLabel(gr, "Clipboard", PADDING_H);
-		lineDivider(gr, PADDING_H + 105);
+			categoryLabel(gr, "Clipboard", PADDING_H);
+			lineDivider(gr, PADDING_H + 105);
 		
 		//Image
-		categoryLabel(gr, "Image", PADDING_H + 130);
-		lineDivider(gr, PADDING_H + 220);
+			categoryLabel(gr, "Image", PADDING_H + 130);
+			lineDivider(gr, PADDING_H + 220);
 		
 		//Tools
-		categoryLabel(gr, "Tools", PADDING_H + 260);
-		lineDivider(gr, PADDING_H + 350);
+			categoryLabel(gr, "Tools", PADDING_H + 260);
+			lineDivider(gr, PADDING_H + 350);
 		
 		//Brushes
-		categoryLabel(gr, "Brushes", PADDING_H + 362.5f);
-		lineDivider(gr, PADDING_H + 440);
+			categoryLabel(gr, "Brushes", PADDING_H + 362.5f);
+			lineDivider(gr, PADDING_H + 440);
 		
 		//Shapes
-		categoryLabel(gr, "Shapes", PADDING_H + 452.5f);
-		lineDivider(gr, PADDING_H + 520);
+			categoryLabel(gr, "Shapes", PADDING_H + 452.5f);
+			lineDivider(gr, PADDING_H + 520);
 		
 		//Size
-		categoryLabel(gr, "Size", PADDING_H + 532.5f);
-		lineDivider(gr, PADDING_H + 580);
+			categoryLabel(gr, "Size", PADDING_H + 532.5f);
+			lineDivider(gr, PADDING_H + 580);
 		
 		//Colors
-		categoryLabel(gr, "Colors", PADDING_H + 715.5f);
+			categoryLabel(gr, "Colors", PADDING_H + 715.5f);
 		
 		//Primary and secondary
-		displayMainColor(gr, Store.getPrimaryColor(), TOP + 28);
-		displayMainColor(gr, Store.getSecondColor(), MIDDLE + 40);
+			displayMainColor(gr, Store.getPrimaryColor(), TOP + 28);
+			displayMainColor(gr, Store.getSecondColor(), MIDDLE + 40);
 		
 		//Tools
-		for(Tool t : tools) {
-			(new MouseHoverArea(
-				t.getLabel(),
-				new Image(t.getImgPath()),
-				t.getPosX(),
-				t.getPosY(),
-				t.getWidth(),
-				t.getHeight()
-			)).hoverListener();
-			
-			(new ClickableArea(
-				t.getPosX(),
-				t.getPosY(),
-				t.getWidth(),
-				t.getHeight(),
-				t.getAction()
-			)).clickableListener();
-		}
-		
-		//Colorset
-		int margin = 25;
-		for(int i=0; i<colorset.length*20; i+=margin) {//Is not really good to look with the 25 value of the margin
-			
-			for(int j=0; j<colorset[0].length*margin; j+=margin) {
-				gr.setColor(colorset[i / margin][j / margin]);
-				gr.fillOval(690 + j - 7.5f, TOP + margin + i - 7.5f, 15, 15);
-				gr.setColor(AppColors.GRAY.getColor());
-				gr.drawOval(690 + j - 7.5f, TOP + margin + i - 7.5f, 15, 15);
+			for(Tool t : tools) {
+				(new MouseHoverArea(
+					t.getLabel(),
+					new Image(t.getImgPath()),
+					t.getPosX(),
+					t.getPosY(),
+					t.getWidth(),
+					t.getHeight()
+				)).hoverListener();
 				
 				(new ClickableArea(
-					690 + j - 7.5f,
-					TOP + margin + i - 7.5f,
-					15,
-					15,
-					Store.getPreviousAction(),
-					colorset[i / margin][j / margin]
+					t.getPosX(),
+					t.getPosY(),
+					t.getWidth(),
+					t.getHeight(),
+					t.getAction()
 				)).clickableListener();
 			}
-		}
+		
+		//Colorset
+			int margin = 25;
+			for(int i=0; i<colorset.length*20; i+=margin) {//Is not really good to look with the 25 value of the margin
+				
+				for(int j=0; j<colorset[0].length*margin; j+=margin) {
+					gr.setColor(colorset[i / margin][j / margin]);
+					gr.fillOval(690 + j - 7.5f, TOP + margin + i - 7.5f, 15, 15);
+					gr.setColor(AppColors.GRAY.getColor());
+					gr.drawOval(690 + j - 7.5f, TOP + margin + i - 7.5f, 15, 15);
+					
+					(new ClickableArea(
+						690 + j - 7.5f,
+						TOP + margin + i - 7.5f,
+						15,
+						15,
+						Store.getPreviousAction(),
+						colorset[i / margin][j / margin]
+					)).clickableListener();
+				}
+			}
 	}
 	
 	public static void lineDivider(Graphics gr, float x) {

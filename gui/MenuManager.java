@@ -98,14 +98,14 @@ public class MenuManager {
 	
 	public void showSizeMenu() throws SlickException {
 		//Data retrieval
-		gr = Store.getGr();
+			gr = Store.getGr();
 		
 		//Container
-		gr.setColor(AppColors.DARKWHITE.getColor());
-		gr.fillRoundRect(565, Sizes.SETTING_HEIGHT.getSize() + 70, 35 * 4, 90, 5);
+			gr.setColor(AppColors.DARKWHITE.getColor());
+			gr.fillRoundRect(565, Sizes.SETTING_HEIGHT.getSize() + 70, 35 * 4, 90, 5);
 		//Border
-		gr.setColor(AppColors.LIGHTGRAY.getColor());
-		gr.drawRoundRect(565, Sizes.SETTING_HEIGHT.getSize() + 70, 35 * 4, 90, 5);
+			gr.setColor(AppColors.LIGHTGRAY.getColor());
+			gr.drawRoundRect(565, Sizes.SETTING_HEIGHT.getSize() + 70, 35 * 4, 90, 5);
 		
 		int y = 0;
 		for(String[] ts : sizes) {
@@ -131,17 +131,17 @@ public class MenuManager {
 	}
 	
 	public void showShapeMenu() throws SlickException {
-		//Data mapping
-		gr = Store.getGr();
+		//Data retrieval
+			gr = Store.getGr();
 		
 		int numberPerColumn = 4;
 		
 		//Container
-		gr.setColor(AppColors.DARKWHITE.getColor());
-		gr.fillRoundRect(485, Sizes.SETTING_HEIGHT.getSize() + 70, 35 * numberPerColumn, 25 * 3, 5);
+			gr.setColor(AppColors.DARKWHITE.getColor());
+			gr.fillRoundRect(485, Sizes.SETTING_HEIGHT.getSize() + 70, 35 * numberPerColumn, 25 * 3, 5);
 		//Border
-		gr.setColor(AppColors.LIGHTGRAY.getColor());
-		gr.drawRoundRect(485, Sizes.SETTING_HEIGHT.getSize() + 70, 35 * numberPerColumn, 25 * 3, 5);
+			gr.setColor(AppColors.LIGHTGRAY.getColor());
+			gr.drawRoundRect(485, Sizes.SETTING_HEIGHT.getSize() + 70, 35 * numberPerColumn, 25 * 3, 5);
 		
 		int x=0, y=0, i=0;
 		for(Tool t : shapes) {
@@ -169,24 +169,24 @@ public class MenuManager {
 	}
 	
 	public void showFileMenu() {
-		//Data mapping
-		gr = Store.getGr();
+		//Data retrieval
+			gr = Store.getGr();
 		
 		int heightOfItem = 30;
 		int numberOfItems = fileItems.length;
 		
 		//Container
-		gr.setColor(AppColors.DARKWHITE.getColor());
-		gr.fillRoundRect(
-			10 - 4, 
-			22 + 20 - 3, 
-			300,//width 
-			numberOfItems * heightOfItem, 
-			5
-		);
+			gr.setColor(AppColors.DARKWHITE.getColor());
+			gr.fillRoundRect(
+				10 - 4, 
+				22 + 20 - 3, 
+				300,//width 
+				numberOfItems * heightOfItem, 
+				5
+			);
 		//Border
-		gr.setColor(AppColors.LIGHTGRAY.getColor());
-		gr.drawRoundRect(
+			gr.setColor(AppColors.LIGHTGRAY.getColor());
+			gr.drawRoundRect(
 				10 - 4, 
 				22 + 20 - 3, 
 				300,//width 
@@ -202,30 +202,30 @@ public class MenuManager {
 	}
 	
 	public void showViewMenu() {
-		//Data mapping
-		gr = Store.getGr();
+		//Data retrieval
+			gr = Store.getGr();
 		
 		int heightOfItem = 30;
 		int numberOfItems = viewItems.length;
 		
 		//Container
-		gr.setColor(AppColors.DARKWHITE.getColor());
-		gr.fillRoundRect(
-			10 + 50 - 4, 
-			22 + 20 - 3, 
-			300,//width 
-			numberOfItems * heightOfItem, 
-			5
-		);
-		//Border
-		gr.setColor(AppColors.LIGHTGRAY.getColor());
-		gr.drawRoundRect(
+			gr.setColor(AppColors.DARKWHITE.getColor());
+			gr.fillRoundRect(
 				10 + 50 - 4, 
 				22 + 20 - 3, 
 				300,//width 
 				numberOfItems * heightOfItem, 
 				5
 			);
+		//Border
+			gr.setColor(AppColors.LIGHTGRAY.getColor());
+			gr.drawRoundRect(
+					10 + 50 - 4, 
+					22 + 20 - 3, 
+					300,//width 
+					numberOfItems * heightOfItem, 
+					5
+				);
 			
 		int y=0;
 		for(Item i : viewItems) {
