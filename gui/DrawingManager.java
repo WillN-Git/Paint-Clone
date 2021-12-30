@@ -156,6 +156,9 @@ public class DrawingManager {
 					
 					gr.setLineWidth(Store.getShapeWeight());
 					
+					if( Store.getShiftButtonPressed() )
+						gr.rotate(v.get(0).getX(), v.get(0).getY(), mouseY);
+					
 					if(currentAction == Actions.DRAW_LINE) {
 						gr.draw(line);
 					} else if(currentAction == Actions.DRAW_RECTANGLE) {

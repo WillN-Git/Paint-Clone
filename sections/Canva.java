@@ -75,10 +75,13 @@ public abstract class Canva {
 		
 		//For drawing shapes
 			for(Graphic g : Store.getGraphics()) {
-				gr.setLineWidth(g.getWeight());
-				gr.setColor(g.getColorOfShape());
-				gr.draw(g.getShape());
-				gr.setLineWidth(1);
+				//To draw
+					gr.setLineWidth(g.getWeight());
+					gr.setColor(g.getColorOfShape());
+					gr.draw(g.getShape());
+				
+				//To reset the gr
+					gr.setLineWidth(1);
 			}
 		
 		drawingManager.displayMyDrawing();

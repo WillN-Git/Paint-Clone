@@ -122,6 +122,12 @@ public class Test extends BasicGame {
 				Store.setCtrlButtonPressed(false);
 			}
 			
+			if( input.isKeyDown(Input.KEY_LSHIFT) || input.isKeyDown(Input.KEY_RSHIFT) ) {
+				Store.setShiftButtonPressed(true);
+			} else {
+				Store.setShiftButtonPressed(false);
+			}
+			
 			
 		//Drag action
 			if( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ) {
@@ -134,7 +140,11 @@ public class Test extends BasicGame {
 					case DRAW_TRIANGLE : case DRAW_PENTAGON : case DRAW_HEXAGON :
 						Store.setDrawFinished(false);
 						
-						if( input.getMouseY() > Sizes.SETTING_HEIGHT.getSize() +  Sizes.TOOLKIT_HEIGHT.getSize() ) {
+						if( 
+							input.getMouseY() > Sizes.SETTING_HEIGHT.getSize() +  Sizes.TOOLKIT_HEIGHT.getSize() + 60 &&
+							( input.getMouseX() > 60 && input.getMouseX() < Sizes.CANVA_WIDTH.getSize()+60)
+								
+						) {
 							//If in the store it is said that it is not drawing, it is reported to the store
 							if( !Store.getIsDrawing() ) {
 								Store.setIsDrawing(true);

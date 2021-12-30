@@ -32,9 +32,14 @@ public abstract class Store {
 	
 	//============ Basics
 		private static Graphics gr;
-		private static int mouseX, mouseY,
-						   mouseXClick, mouseYClick;
+	
+	//============ GUI
 		private static boolean ctrlButtonPressed = false;
+		private static boolean shiftButtonPressed = false;
+		private static boolean isDragging = false;
+		private static float scrollTranslation = 0;
+		private static int mouseX, mouseY,
+		   				   mouseXClick, mouseYClick;
 	
 	//============ Shape
 		private static boolean isDrawing = false, drawFinished = false;
@@ -48,8 +53,6 @@ public abstract class Store {
 	//============ Actions
 		private static Actions previousAction = Actions.NONE,
 								currentAction = Actions.NONE;
-		private static boolean isDragging = false;
-		private static float scrollTranslation = 0;
 		
 		private static Image cursorImage = null;
 	
@@ -82,6 +85,10 @@ public abstract class Store {
 	
 	public static boolean getIfCtrlButtonIsPressed() {
 		return ctrlButtonPressed;
+	}
+	
+	public static boolean getShiftButtonPressed() {
+		return shiftButtonPressed;
 	}
 	
 	public static ArrayList<Graphic> getGraphics() {
@@ -160,6 +167,10 @@ public abstract class Store {
 	
 	public static void setCtrlButtonPressed(boolean isPressed) {
 		Store.ctrlButtonPressed = isPressed;
+	}
+	
+	public static void setShiftButtonPressed(boolean isPressed) {
+		Store.shiftButtonPressed = isPressed;
 	}
 	
 	public static void addGraphic(Graphic graphic) {
