@@ -1,11 +1,17 @@
+import java.awt.AWTException;
+
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.ScalableGame;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.gui.TextField;
 
 import components.Store;
 import constants.*;
@@ -22,13 +28,15 @@ import sections.*;
  * 
  */
 
-public class Test extends BasicGame {
+public class App extends BasicGame {
 	public static AppGameContainer app;
+	public static ScalableGame paint;
 	
 	//=================== APP PROPERTIES
 		private static String title = "Untitled";
 		private static float WIDTH = Sizes.SCREEN_DEFAULT_WIDTH.getSize(),
 							HEIGHT = Sizes.SCREEN_DEFAULT_HEIGHT.getSize();
+		private TrueTypeFont ttf;
 	
 	//=================== MANAGER
 		private MenuManager menuManager;
@@ -39,54 +47,91 @@ public class Test extends BasicGame {
 		private int mouseX, mouseY, 
 					mouseXClick, mouseYClick;
 		private boolean showStatusBar, showGridlines , showRuler;
-	
-	
-	public Test(String title) {
+		private TextField textfield;
+		
+		
+	public App(String title) {
 		super(title);
 	}
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
-		menuManager = new MenuManager();
-		scroller = new Scroller();
+		//GUI
+			menuManager = new MenuManager();
+			scroller = new Scroller();
+		
 		
 		zoomFactor = 0.5f;
-		showStatusBar = true;
-		showGridlines = false;
-		showRuler = false;
+		
+		//Toggle
+			showStatusBar = true;
+			showGridlines = false;
+			showRuler = false;
+		
+		//Font style
+			java.awt.Font font = new java.awt.Font("Century Gothic", java.awt.Font.BOLD, 14);
+			ttf = new TrueTypeFont(font, true);
+		
+		textfield = new TextField(gc, ttf, 150, 150, 0, 0);
+		Store.setTextField(textfield);
 	}
 	
 	@Override
 	public void render(GameContainer gc, Graphics gr) throws SlickException {
 		//Basics
 			gr.setAntiAlias(true);
-			gr.setBackground(AppColors.PALEWHITE.getColor());
+			gr.setFont(ttf);
+			
+		//Background
+			gr.setColor(AppColors.PALEWHITE.getColor());
+			gr.fillRect(
+					0, 
+					0, 
+					Sizes.SCREEN_DEFAULT_WIDTH.getSize(), 
+					Sizes.SCREEN_DEFAULT_HEIGHT.getSize()
+					);
 		
+		Store.setGc(gc);
 		Store.setGr(gr);
 		
 		
 		lineDivider(gr, Sizes.SETTING_HEIGHT.getSize() + Sizes.TOOLKIT_HEIGHT.getSize());
-		Canva.display(showGridlines, zoomFactor);
-		Board.display(showRuler);
 		
-		Settings.display();
-		Toolkit.display();
+		//Canva
+			Canva.display(showGridlines, zoomFactor);
+		
+		//Board
+			Board.display(showRuler);
+		
+		//Settings
+			Settings.display();
+		
+		//Toolkit	
+			Toolkit.display();
+		
 		lineDivider(gr, Sizes.SETTING_HEIGHT.getSize());//1
 		
 		
-		if(showStatusBar) {
-			StatusBar.display();
-			lineDivider(gr, Sizes.SCREEN_DEFAULT_HEIGHT.getSize() - Sizes.STATUSBAR_HEIGHT.getSize());
-		}
+		
+		//StatusBar
+			if(showStatusBar) {
+				StatusBar.display();
+				lineDivider(gr, Sizes.SCREEN_DEFAULT_HEIGHT.getSize() - Sizes.STATUSBAR_HEIGHT.getSize());
+			}
 		
 		menuManager.displayMenu();
 		
 		scroller.display();
+		
+		textfield.render(gc, gr);
+		Store.setTextInput(textfield.getText());
 	}
 
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		Input input = gc.getInput();
+		Display.setResizable(true);
+		paint.recalculateScale();
 		
 		Store.setMouseX(input.getMouseX());
 		Store.setMouseY(input.getMouseY());
@@ -165,6 +210,14 @@ public class Test extends BasicGame {
 					Store.setIsDrawing(false);
 				}
 			}
+			
+		//Stop writing
+			if( input.isKeyPressed(Input.KEY_ENTER) ) {
+				Store.setEnterButtonPressed(true);
+				textfield.setFocus(false);
+			} else {
+				Store.setEnterButtonPressed(false);
+			}
 		
 		//To change the cursor when the user chooses a tool
 			if( Store.getCursorImage() != null ) {
@@ -177,13 +230,20 @@ public class Test extends BasicGame {
 					app.setMouseCursor( Store.getCursorImage(), 0, 24 );
 				}
 			}
-		
+			
 		app.setTitle(title + " - Paint");
 	}
 	
 	public static void main(String[] args) throws SlickException {
-		app = new AppGameContainer( new Test(title + " - Paint"), (int)WIDTH, (int)HEIGHT, false );
+		paint = new ScalableGame(
+									new App(title + " - Paint"), 
+									(int)WIDTH, (int)HEIGHT, 
+									false
+								);
 		
+		app = new AppGameContainer( paint );
+		
+		app.setDisplayMode( (int)WIDTH, (int)HEIGHT, false );
 		app.setShowFPS(false);
 		app.setIcon(Icons.LOGO.toString());
 		

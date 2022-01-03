@@ -3,14 +3,15 @@ package components;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.fills.GradientFill;
 import org.newdawn.slick.geom.Vector2f;
+import org.newdawn.slick.gui.TextField;
 
 import constants.Actions;
 import constants.AppColors;
-import constants.Sizes;
 
 /**
  * 
@@ -32,12 +33,18 @@ public abstract class Store {
 	
 	//============ Basics
 		private static Graphics gr;
+		private static GameContainer gc;
 	
 	//============ GUI
 		private static boolean ctrlButtonPressed = false;
 		private static boolean shiftButtonPressed = false;
+		private static boolean enterButtonPressed = false;
 		private static boolean isDragging = false;
+		private static boolean isWriting = false;
 		private static float scrollTranslation = 0;
+		
+		private static String textInput;
+		
 		private static int mouseX, mouseY,
 		   				   mouseXClick, mouseYClick;
 	
@@ -56,6 +63,10 @@ public abstract class Store {
 		
 		private static Image cursorImage = null;
 	
+	//============ Tools to help
+		private static TextField textfield;
+		private static GradientFill colorpicker;
+	
 	
 	/*
 	 * =============================
@@ -65,6 +76,10 @@ public abstract class Store {
 	
 	public static Graphics getGr() {
 		return gr;
+	}
+	
+	public static GameContainer getGc() {
+		return gc;
 	}
 	
 	public static int getMouseX() {
@@ -83,12 +98,24 @@ public abstract class Store {
 		return mouseYClick;
 	}
 	
+	public static TextField getTextField() {
+		return textfield;
+	}
+	
+	public static String getTextInput() {
+		return textInput;
+	}
+	
 	public static boolean getIfCtrlButtonIsPressed() {
 		return ctrlButtonPressed;
 	}
 	
-	public static boolean getShiftButtonPressed() {
+	public static boolean getIfShiftButtonIsPressed() {
 		return shiftButtonPressed;
+	}
+	
+	public static boolean getIfEnterButtonIsPressed() {
+		return enterButtonPressed;
 	}
 	
 	public static ArrayList<Graphic> getGraphics() {
@@ -139,6 +166,10 @@ public abstract class Store {
 		return scrollTranslation;
 	}
 	
+	public static GradientFill getColorPicker() {
+		return colorpicker;
+	}
+	
 	/*
 	 * =============================
 	 * 			  SETTERS
@@ -147,6 +178,10 @@ public abstract class Store {
 	
 	public static void setGr(Graphics gr) {
 		Store.gr = gr; 
+	}
+	
+	public static void setGc(GameContainer gc) {
+		Store.gc = gc;
 	}
 	
 	public static void setMouseX(int mouseX) {
@@ -165,12 +200,24 @@ public abstract class Store {
 		Store.mouseYClick = mouseYClick;
 	}
 	
+	public static void setTextField(TextField textfield) {
+		Store.textfield = textfield;
+	}
+	
+	public static void setTextInput(String textInput) {
+		Store.textInput = textInput;
+	}
+	
 	public static void setCtrlButtonPressed(boolean isPressed) {
 		Store.ctrlButtonPressed = isPressed;
 	}
 	
 	public static void setShiftButtonPressed(boolean isPressed) {
 		Store.shiftButtonPressed = isPressed;
+	}
+	
+	public static void setEnterButtonPressed(boolean isPressed) {
+		Store.enterButtonPressed = isPressed;
 	}
 	
 	public static void addGraphic(Graphic graphic) {
@@ -235,5 +282,9 @@ public abstract class Store {
 	
 	public static void setScrollTranslation(float scrollTranslation) {
 		Store.scrollTranslation = scrollTranslation;
+	}
+	
+	public static void setColorPicker(GradientFill colorpicker) {
+		Store.colorpicker = colorpicker;
 	}
 }

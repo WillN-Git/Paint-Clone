@@ -9,7 +9,8 @@ public enum Images {
 	PX_1("1px.png"),
 	PX_3("3px.png"),
 	PX_5("5px.png"),
-	PX_8("8px.png");
+	PX_8("8px.png"),
+	CHROMA("chromatic-ring-removebg-preview.png");
 	
 	//============= PROPS & CONSTRUCTOR
 	String path;

@@ -75,17 +75,25 @@ public abstract class Canva {
 		
 		//For drawing shapes
 			for(Graphic g : Store.getGraphics()) {
-				//To draw
+				
+				if(g.getStr() != null) { //To Write
+					gr.setColor( g.getColorOfShape() );
+					gr.drawString(g.getStr(), g.getPosX(), g.getPosY());
+
+				} else { //To draw
+				
 					gr.setLineWidth(g.getWeight());
 					gr.setColor(g.getColorOfShape());
 					gr.draw(g.getShape());
 				
-				//To reset the gr
-					gr.setLineWidth(1);
+					//To reset the gr
+						gr.setLineWidth(1);
+				}
+				
 			}
-		
+		gr.resetTransform();
 		drawingManager.displayMyDrawing();
-		
+		gr.translate(0, -Store.getScrollTranslation());
 		//GridLines
 			if(showGridlines) {
 				gr.setColor(AppColors.TRANSPARENTGRAY.getColor());

@@ -10,7 +10,9 @@ public class Graphic {
 	 * =============================
 	*/
 	
-	private Shape shape;
+	private String str = null;
+	private int posX, posY;
+	private Shape shape = null;
 	private Color colorOfShape;
 	private int weight;
 	
@@ -24,6 +26,13 @@ public class Graphic {
 		this.shape = shape;
 		this.colorOfShape = colorOfShape;
 		this.weight = weight;
+	}
+	
+	public Graphic(String str, int posX, int posY, Color colorOfShape) {
+		this.str = str;
+		this.posX = posX;
+		this.posY = posY;
+		this.colorOfShape = colorOfShape;
 	}
 	
 	/*
@@ -44,6 +53,18 @@ public class Graphic {
 		return weight;
 	}
 	
+	public String getStr() {
+		return str;
+	}
+	
+	public int getPosX() {
+		return posX;
+	}
+	
+	public int getPosY() {
+		return posY;
+	}
+	
 	/*
 	 * =============================
 	 * 			SETTERS 
@@ -60,5 +81,17 @@ public class Graphic {
 	
 	public void setWeight(int weight) {
 		this.weight = weight;
+	}
+	
+	public void setStr(String str) {
+		this.str = str;
+	}
+	
+	public void setPosX(int posX) {
+		this.posX = posX;
+	}
+	
+	public void setPosY(int posY) {
+		this.posY = posY;
 	}
 }

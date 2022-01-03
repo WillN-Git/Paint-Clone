@@ -12,6 +12,7 @@ public enum Actions {
 	SHOW_VIEW_MENU,
 	SHOW_SHAPE_MENU,
 	SHOW_SIZE_MENU,
+	SHOW_CHROMATIC_MENU,
 	
 	//=============== TOOLKIT
 	CUT,

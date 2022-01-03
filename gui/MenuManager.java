@@ -1,5 +1,6 @@
 package gui;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -93,7 +94,17 @@ public class MenuManager {
 			case SHOW_SIZE_MENU : 
 				showSizeMenu();
 				break;
+			case CHOOSE_COLOR_IN_CHROMA :
+				showChromaticMenu();
+				break;
 		}
+	}
+	
+	public void showChromaticMenu() {
+		//Data retrieval
+			gr = Store.getGr();
+			
+			
 	}
 	
 	public void showSizeMenu() throws SlickException {

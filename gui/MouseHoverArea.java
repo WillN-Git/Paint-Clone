@@ -2,6 +2,7 @@ package gui;
 
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.util.FontUtils;
 
 import components.Store;
 import constants.AppColors;
@@ -92,7 +93,7 @@ public class MouseHoverArea {
 			gr.drawImage(img, posX, posY);
 		} else {
 			gr.setColor(AppColors.TEXT.getColor());
-			gr.drawString(text, posX, posY);
+			FontUtils.drawCenter(gr.getFont(), text, (int)posX - 4, (int)posY, (int)hoverAreaWidth, AppColors.TEXT.getColor());
 		}
 	}
 	

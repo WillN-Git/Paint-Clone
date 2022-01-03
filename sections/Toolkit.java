@@ -4,6 +4,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.util.FontUtils;
 
 import components.Store;
 import components.Tool;
@@ -121,38 +122,80 @@ public abstract class Toolkit {
 			gr = Store.getGr();
 			mouseX = Store.getMouseX();
 			mouseY = Store.getMouseY();
-		
-		
+			
 		//Background
 			gr.setColor(AppColors.SMOOTHGRAY.getColor());
 			gr.fillRect(0, TOP, WIDTH, HEIGHT);
 		
 		//Clipboard
-			categoryLabel(gr, "Clipboard", PADDING_H);
+			FontUtils.drawCenter(
+				gr.getFont(),
+				"Clipboard", 
+				0, (int)BOTTOM - 20, 
+				(int)(PADDING_H+105 - 0), 
+				AppColors.GRAY.getColor()
+			);
+			
 			lineDivider(gr, PADDING_H + 105);
+			
 		
 		//Image
-			categoryLabel(gr, "Image", PADDING_H + 130);
+			FontUtils.drawCenter(
+				gr.getFont(), 
+				"Image", 
+				(int)(PADDING_H + 105), (int)BOTTOM - 20, 
+				(int)(220 - 105), AppColors.GRAY.getColor()
+			);
+			
 			lineDivider(gr, PADDING_H + 220);
 		
 		//Tools
-			categoryLabel(gr, "Tools", PADDING_H + 260);
+			FontUtils.drawCenter(
+				gr.getFont(),
+				"Tools", 
+				(int)(PADDING_H +220), (int)BOTTOM - 20, 
+				(int)(350 - 220), AppColors.GRAY.getColor()
+			);
+			
 			lineDivider(gr, PADDING_H + 350);
 		
 		//Brushes
-			categoryLabel(gr, "Brushes", PADDING_H + 362.5f);
+			FontUtils.drawCenter(
+				gr.getFont(), 
+				"Brushes", 
+				(int)(PADDING_H + 350), (int)BOTTOM - 20, 
+				(int)(440 - 350), AppColors.GRAY.getColor()
+			);
+			
 			lineDivider(gr, PADDING_H + 440);
 		
 		//Shapes
-			categoryLabel(gr, "Shapes", PADDING_H + 452.5f);
+			FontUtils.drawCenter(
+				gr.getFont(), 
+				"Shapes", 
+				(int)(PADDING_H + 440), (int)BOTTOM - 20, 
+				(int)(520 - 440), AppColors.GRAY.getColor()
+			);
+			
 			lineDivider(gr, PADDING_H + 520);
 		
 		//Size
-			categoryLabel(gr, "Size", PADDING_H + 532.5f);
+			FontUtils.drawCenter(
+				gr.getFont(), 
+				"Sizes", 
+				(int)(PADDING_H + 520), (int)BOTTOM - 20, 
+				(int)(580 - 520), AppColors.GRAY.getColor()
+			);
+			
 			lineDivider(gr, PADDING_H + 580);
 		
 		//Colors
-			categoryLabel(gr, "Colors", PADDING_H + 715.5f);
+			FontUtils.drawCenter(
+				gr.getFont(), 
+				"Colors", 
+				(int)(PADDING_H + 580), (int)BOTTOM - 20, 
+				(int)(910 - 580), AppColors.GRAY.getColor()
+			);
 		
 		//Primary and secondary
 			displayMainColor(gr, Store.getPrimaryColor(), TOP + 28);
@@ -203,11 +246,6 @@ public abstract class Toolkit {
 	public static void lineDivider(Graphics gr, float x) {
 		gr.setColor(new Color(200, 200, 200));
 		gr.drawLine(x, TOP + 6, x, BOTTOM - 8);
-	}
-	
-	public static void categoryLabel(Graphics gr, String label, float x) { 
-		gr.setColor(AppColors.GRAY.getColor());
-		gr.drawString(label, x, BOTTOM - 20);
 	}
 	
 	public static void displayMainColor(Graphics gr, Color color, float y) {

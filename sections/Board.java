@@ -48,8 +48,8 @@ public abstract class Board {
 			mouseY = Store.getMouseY();
 		
 		//Background
-//		gr.setColor(AppColors.PALEWHITE.getColor());
-//		gr.fillRect(LEFT, TOP, WIDTH, HEIGHT);
+//			gr.setColor(AppColors.PALEWHITE.getColor());
+//			gr.fillRect(LEFT, TOP, WIDTH, HEIGHT);
 		
 		//Ruler
 			if(showRuler) {
