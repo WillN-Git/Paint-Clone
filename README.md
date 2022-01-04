@@ -1,14 +1,21 @@
 <div align="center">
-  <h1 align="center">MMKV</h1>
-  <h3 align="center">The fastest key/value storage for React Native.</h3>
+  <h1 align="center">Paint Clone 🧑‍🎨</h1>
+  <h3 align="center">A reproduction of the windows paint application.</h3>
 </div>
 
-A simple reproduction of the Windows Paint application, made with the graphics library **Slick2D**.
+<br/>
 
-**Slick2D** is a library for making 2D RPG games 😅.
+* **Slick2D** is an easy to use set of tools and utilites wrapped around LWJGL OpenGL bindings to make 2D Java game development easier.
 
-Apart from that, the particularity of this example lies in features such as scroll, back/forward (ctrl + z / ctrl + y), and many other shortcuts.
+![screenshot](MDImages/screenshot.png)
 
+## Features
 
-![screenshot](screenshot.png)
-
+* Of course drawing! **Drawing custom shapes** ✍ (*with the pencil or the brush*)
+* Classic shapes such as **rectangles, circles, curves and others are implemented**
+* And if you made a mistake you can **erase** it
+* You can also **write text**
+* **Resize your brush** 📏
+* **Scroll** the drawing space
+* You can **choose the colour** 🎨 from the samples offered, or **create your own** (*with the colour picker*)
+* **Shortcuts** such as `ctrl+z`, `ctrl+y` (to move backwards or forwards), and other shortcuts defined in the original Paint are implemented
