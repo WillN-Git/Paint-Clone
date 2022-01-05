@@ -30,8 +30,8 @@ Since Slick2D requires OS dependent native libraries, you cannot just export an 
 
 * [JDK v.1.8.0_65](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) - Java Development Kit. What else can I say?
 
-* [Eclipse IDE](https://www.eclipse.org) <img align="right" src="MDImages/Eclipse_IDE.png" />
+* [Eclipse IDE](https://www.eclipse.org) <img align="right" src="MDImages/Eclipse_IDE.jpeg" />
  Maybe the most famous IDE for Java developers. 
 
-* [Slick2D](https://slick.ninjacave.com/javadoc/) <img align="right" src="MDImages/slick2D.png" />
+* [Slick2D](https://slick.ninjacave.com/javadoc/) <img align="right" src="MDImages/slick2D-logo.png" />
  An easy to use set of tools and utilites wrapped around LWJGL OpenGL bindings to make 2D Java game development easier. See the documentation for more information. 
