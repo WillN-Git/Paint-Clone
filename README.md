@@ -9,6 +9,8 @@
 
 <br/>
 
+<img align="right" src="MDImages/slick2D.png" />
+
 * **Slick2D** is an easy to use set of tools and utilites wrapped around LWJGL OpenGL bindings to make 2D Java game development easier.
 
 ![screenshot](MDImages/screenshot.png)
