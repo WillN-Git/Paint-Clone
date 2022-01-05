@@ -28,7 +28,7 @@
 
 Since Slick2D requires OS dependent native libraries, you cannot just export an executable -jar in order to to run the game on your system outside your IDE. At the moment, the application has no executable file. So you need to copy my source code on your IDE for launch the app.
 
-br/>
+<br/>
 <h2>Toolkit 🧰</h2>
 
 * [JDK v.1.8.0_65](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) - Java Development Kit. What else can I say?
