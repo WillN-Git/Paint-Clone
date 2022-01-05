@@ -11,7 +11,7 @@
 
 ![screenshot](MDImages/screenshot.png)
 
-## Features
+## Features ✨
 
 * Of course drawing! **Drawing custom shapes** ✍ (*with the pencil or the brush*)
 * Classic shapes such as **rectangles, circles, curves and others are implemented**
@@ -22,15 +22,11 @@
 * You can **choose the colour** 🎨 from the samples offered, or **create your own** (*with the colour picker*)
 * **Shortcuts** such as `ctrl+z`, `ctrl+y` (to move backwards or forwards), and other shortcuts defined in the original Paint are implemented
 
-## How To build
+## How To build 🔨
 
 Since Slick2D requires OS dependent native libraries, you cannot just export an executable -jar in order to to run the game on your system outside your IDE. At the moment, the application has no executable file. So you need to copy my source code on your IDE for launch the app.
 
-## Toolkit
-
-<img align="right" src="MDImages/Eclipse_IDE.jpeg" />
-<br/>
-<img align="right" src="MDImages/slick2D-logo.png" />
+## Toolkit 🧰
 
 * [JDK v.1.8.0_65](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) - Java Development Kit. What else can I say?
 
