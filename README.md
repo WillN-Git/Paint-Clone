@@ -1,4 +1,5 @@
 <div align="center">
+  <img align="center" src="assets/icons/back.png" />
   <h1 align="center">Paint Clone 🧑‍🎨</h1>
   <h3 align="center">A reproduction of the windows paint application.</h3>
 </div>
