@@ -1,5 +1,3 @@
-import java.awt.AWTException;
-
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
@@ -60,7 +58,6 @@ public class App extends BasicGame {
 			menuManager = new MenuManager();
 			scroller = new Scroller();
 		
-		
 		zoomFactor = 0.5f;
 		
 		//Toggle
@@ -73,11 +70,15 @@ public class App extends BasicGame {
 			ttf = new TrueTypeFont(font, true);
 		
 		textfield = new TextField(gc, ttf, 150, 150, 0, 0);
-		Store.setTextField(textfield);
+		Store.textfield = textfield;
 	}
 	
 	@Override
 	public void render(GameContainer gc, Graphics gr) throws SlickException {
+		//Saving data
+			Store.gc = gc;
+			Store.gr = gr;
+		
 		//Basics
 			gr.setAntiAlias(true);
 			gr.setFont(ttf);
@@ -85,15 +86,11 @@ public class App extends BasicGame {
 		//Background
 			gr.setColor(AppColors.PALEWHITE.getColor());
 			gr.fillRect(
-					0, 
-					0, 
-					Sizes.SCREEN_DEFAULT_WIDTH.getSize(), 
+					0,
+					0,
+					Sizes.SCREEN_DEFAULT_WIDTH.getSize(),
 					Sizes.SCREEN_DEFAULT_HEIGHT.getSize()
-					);
-		
-		Store.setGc(gc);
-		Store.setGr(gr);
-		
+				);
 		
 		lineDivider(gr, Sizes.SETTING_HEIGHT.getSize() + Sizes.TOOLKIT_HEIGHT.getSize());
 		
@@ -124,7 +121,7 @@ public class App extends BasicGame {
 		scroller.display();
 		
 		textfield.render(gc, gr);
-		Store.setTextInput(textfield.getText());
+		Store.textfield.setText( textfield.getText() );
 	}
 
 	@Override
@@ -133,24 +130,31 @@ public class App extends BasicGame {
 		Display.setResizable(true);
 		paint.recalculateScale();
 		
-		Store.setMouseX(input.getMouseX());
-		Store.setMouseY(input.getMouseY());
+		Store.mouseX = input.getMouseX();
+		Store.mouseY = input.getMouseY();
+		Store.absoluteMouseX = input.getAbsoluteMouseX();
+		Store.absoluteMouseY = input.getAbsoluteMouseY();
+		
 		
 		//The natural position of the mouse
-			mouseX = Store.getMouseX();
-			mouseY = Store.getMouseY();
+			mouseX = Store.mouseX;
+			mouseY = Store.mouseY;
 		
 		//For doing a selection
 			if( input.isMousePressed(Input.MOUSE_LEFT_BUTTON) ) {
-				Store.setMouseXClick(input.getMouseX());
-				Store.setMouseYClick(input.getMouseY());
-				mouseXClick = Store.getMouseXClick();
-				mouseYClick = Store.getMouseYClick();
+				Store.mouseXClick = input.getMouseX();
+				Store.mouseYClick = input.getMouseY();
+				Store.isClicking = true;
+				
+				mouseXClick = Store.mouseXClick;
+				mouseYClick = Store.mouseYClick;
+			} else {
+				Store.isClicking = false;
 			}
 		
 		//Keyboard Shortcuts
 			if( input.isKeyDown(Input.KEY_LCONTROL) || input.isKeyDown(Input.KEY_RCONTROL) ) {//Control Button pressed
-				Store.setCtrlButtonPressed(true);
+				Store.ctrlButtonPressed = true;
 				
 				if( input.isKeyPressed(Input.KEY_G) ) 
 					showGridlines = !showGridlines;
@@ -164,72 +168,76 @@ public class App extends BasicGame {
 					Store.remitGraphic();
 				
 			} else {
-				Store.setCtrlButtonPressed(false);
+				Store.ctrlButtonPressed = false;
 			}
 			
 			if( input.isKeyDown(Input.KEY_LSHIFT) || input.isKeyDown(Input.KEY_RSHIFT) ) {
-				Store.setShiftButtonPressed(true);
+				Store.shiftButtonPressed = true;
 			} else {
-				Store.setShiftButtonPressed(false);
+				Store.shiftButtonPressed = false;
 			}
 			
 			
 		//Drag action
 			if( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ) {
-				Store.setIsDragging(true);
+				Store.isDragging = true;
 				
-				switch ( Store.getCurrentAction() ) {//To send drag information to the store
+				switch ( Store.currentAction ) {//To send drag information to the store
 				
 					case DRAW_WITH_PENCIL : case DRAW_WITH_BRUSH : case ERASE : case DRAW_LINE :
 					case DRAW_RECTANGLE : case DRAW_ROUNDED_RECTANGLE : case DRAW_ELLIPSE :
 					case DRAW_TRIANGLE : case DRAW_PENTAGON : case DRAW_HEXAGON :
-						Store.setDrawFinished(false);
+						Store.drawFinished = false;
 						
-						if( 
-							input.getMouseY() > Sizes.SETTING_HEIGHT.getSize() +  Sizes.TOOLKIT_HEIGHT.getSize() + 60 &&
-							( input.getMouseX() > 60 && input.getMouseX() < Sizes.CANVA_WIDTH.getSize()+60)
-								
-						) {
+						if( Canva.isHover() ) {
 							//If in the store it is said that it is not drawing, it is reported to the store
-							if( !Store.getIsDrawing() ) {
-								Store.setIsDrawing(true);
+							if( !Store.isDrawing ) {
+								Store.isDrawing = true;
 							}
 							Store.addPoint(new Vector2f(mouseX, mouseY));
 						}
 					break;
-					
-					case BACK :
-						//TODO : Je suis foutu...
-						break;
 				}
 			} else {
-				Store.setIsDragging(false);
+				Store.isDragging = false;
 				
-				if( Store.getIsDrawing() ) {
-					Store.setDrawFinished(true);
-					Store.setIsDrawing(false);
+				if( Store.isDrawing ) {
+					Store.drawFinished = true;
+					Store.isDrawing = false;
 				}
 			}
 			
 		//Stop writing
 			if( input.isKeyPressed(Input.KEY_ENTER) ) {
-				Store.setEnterButtonPressed(true);
+				Store.enterButtonPressed = true;
 				textfield.setFocus(false);
 			} else {
-				Store.setEnterButtonPressed(false);
+				Store.enterButtonPressed = false;
 			}
 		
 		//To change the cursor when the user chooses a tool
-			if( Store.getCursorImage() != null ) {
-				if(
-				   ( mouseX <= 60 || mouseX > Sizes.CANVA_WIDTH.getSize()+60 ) ||
-				   ( mouseY <= Sizes.SETTING_HEIGHT.getSize() + Sizes.TOOLKIT_HEIGHT.getSize() )
-				  ) {
+			if( Store.cursorImage != null ) {
+				if( !Canva.isHover() || Store.currentAction == Actions.NONE ) {
 					app.setDefaultMouseCursor();
 				} else {
-					app.setMouseCursor( Store.getCursorImage(), 0, 24 );
+					app.setMouseCursor( Store.cursorImage, 0, 24 );
 				}
 			}
+			
+		switch( Store.currentAction ) {
+			case SHOW_STATUSBAR :
+				showStatusBar = !showStatusBar;
+				Store.setCurrentAction(Actions.NONE);
+				break;
+			case SHOW_RULER :
+				showRuler = !showRuler;
+				Store.setCurrentAction(Actions.NONE);
+				break;
+			case SHOW_GRIDLINES :
+				showGridlines = !showGridlines;
+				Store.setCurrentAction(Actions.NONE);
+				break;
+		}
 			
 		app.setTitle(title + " - Paint");
 	}

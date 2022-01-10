@@ -3,6 +3,7 @@ package sections;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 
 import components.Graphic;
 import components.Store;
@@ -16,17 +17,6 @@ import gui.DrawingManager;
  */
 
 public abstract class Canva {
-	/*
-	 * =============================
-	 * 			DATA 
-	 * =============================
-	*/
-	
-	private static Graphics gr;
-	private static int mouseX, mouseY,
-					   mouseXClick, mouseYClick;
-	private static Actions currentAction;
-	
 	
 	/*
 	 * =============================
@@ -46,6 +36,9 @@ public abstract class Canva {
 						RIGHT = LEFT + WIDTH,
 						BOTTOM = Sizes.SETTING_HEIGHT.getSize() + Sizes.TOOLKIT_HEIGHT.getSize() + 60 + HEIGHT;
 	
+	//Hitbox
+		private static Rectangle hitbox = new Rectangle(LEFT, TOP, WIDTH, HEIGHT);
+	
 	//The drawing manager
 		private static DrawingManager drawingManager;
 	
@@ -57,24 +50,26 @@ public abstract class Canva {
 	
 	public static void display(boolean showGridlines, float zoomFactor) throws SlickException {
 		//Data retrieval
-			gr = Store.getGr();
-			mouseX = Store.getMouseX();
-			mouseY = Store.getMouseY();
-			mouseXClick = Store.getMouseXClick();
-			mouseYClick = Store.getMouseYClick();
+			Graphics gr = Store.gr;
+			int mouseX = Store.mouseX,
+				mouseY = Store.mouseY,
+				mouseXClick = Store.mouseXClick,
+				mouseYClick = Store.mouseYClick;
+		
+		//Init
 			drawingManager = new DrawingManager();
 		
-		gr.translate(0, -Store.getScrollTranslation());
+		gr.translate(0, -Store.scrollTranslation);
 		
 		//The Paper
 			gr.setColor(AppColors.WHITE.getColor());
-			gr.fillRect(LEFT, TOP, WIDTH, HEIGHT);
+			gr.fill(hitbox);
 			
 			gr.setColor(new Color(230, 230, 230));
-			gr.drawRect(LEFT, TOP, WIDTH, HEIGHT);
+			gr.draw(hitbox);
 		
 		//For drawing shapes
-			for(Graphic g : Store.getGraphics()) {
+			for(Graphic g : Store.graphics) {
 				
 				if(g.getStr() != null) { //To Write
 					gr.setColor( g.getColorOfShape() );
@@ -84,16 +79,22 @@ public abstract class Canva {
 				
 					gr.setLineWidth(g.getWeight());
 					gr.setColor(g.getColorOfShape());
-					gr.draw(g.getShape());
+					
+					if(g.getWeight() == 0)
+						gr.fill(g.getShape());
+					else
+						gr.draw(g.getShape());
 				
 					//To reset the gr
 						gr.setLineWidth(1);
 				}
 				
 			}
+			
 		gr.resetTransform();
 		drawingManager.displayMyDrawing();
-		gr.translate(0, -Store.getScrollTranslation());
+		gr.translate(0, -Store.scrollTranslation);
+		
 		//GridLines
 			if(showGridlines) {
 				gr.setColor(AppColors.TRANSPARENTGRAY.getColor());
@@ -105,5 +106,13 @@ public abstract class Canva {
 			}
 			
 		gr.resetTransform();
+	}
+	
+	public static boolean containsClick() {
+		return hitbox.contains(Store.mouseXClick, Store.mouseYClick);
+	}
+	
+	public static boolean isHover() {
+		return hitbox.contains(Store.mouseX, Store.mouseY);
 	}
 }

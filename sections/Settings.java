@@ -16,14 +16,6 @@ import gui.MouseHoverArea;
  */
 
 public abstract class Settings {
-	/*
-	 * =============================
-	 * 			DATA 
-	 * =============================
-	*/
-	
-	private static Graphics gr;
-	private static int mouseX, mouseY;
 	
 	/*
 	 * =============================
@@ -47,9 +39,9 @@ public abstract class Settings {
 	
 	public static void display() throws SlickException {
 		//Data retrieval
-			gr = Store.getGr();
-			mouseX = Store.getMouseX();
-			mouseY = Store.getMouseY();
+			Graphics gr = Store.gr;
+			int mouseX = Store.mouseX,
+				mouseY = Store.mouseY;
 		
 		//Background
 			gr.setColor(AppColors.PALEGRAY.getColor());
@@ -83,6 +75,12 @@ public abstract class Settings {
 				Icons.NEXT.getIcon(),
 				200, MIDDLE + 3, 16, 16
 			)).hoverListener();
+			
+			(new ClickableArea(
+				200, MIDDLE + 3, 
+				16, 16,
+				Actions.NEXT
+			)).clickableListener();
 		
 		//MenuItems
 			gr.setColor(AppColors.TEXT.getColor());
@@ -130,7 +128,7 @@ public abstract class Settings {
 			)).hoverListener();	
 	}
 	
-	public static void lineDivider(Graphics gr, float x) {
+	private static void lineDivider(Graphics gr, float x) {
 		gr.setColor(new Color(200, 200, 200));
 		gr.drawLine(x, MIDDLE - 5, x, MIDDLE + 25);
 	}

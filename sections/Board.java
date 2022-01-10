@@ -10,14 +10,6 @@ import constants.Images;
 import constants.Sizes;
 
 public abstract class Board {
-	/*
-	 * =============================
-	 * 			  DATA 
-	 * =============================
-	*/
-	
-	private static Graphics gr;
-	private static int mouseX, mouseY;
 	
 	/*
 	 * =============================
@@ -43,9 +35,9 @@ public abstract class Board {
 	
 	public static void display(boolean showRuler) throws SlickException {
 		//Data retrieval
-			gr = Store.getGr();
-			mouseX = Store.getMouseX();
-			mouseY = Store.getMouseY();
+			Graphics gr = Store.gr;
+			int mouseX = Store.mouseX,
+				mouseY = Store.mouseY;
 		
 		//Background
 //			gr.setColor(AppColors.PALEWHITE.getColor());

@@ -15,14 +15,6 @@ import constants.Sizes;
  */
 
 public abstract class StatusBar {
-	/*
-	 * =============================
-	 * 			DATA 
-	 * =============================
-	*/
-	
-	private static Graphics gr;
-	private static int mouseX, mouseY;
 	
 	/*
 	 * =============================
@@ -47,9 +39,9 @@ public abstract class StatusBar {
 	
 	public static void display() throws SlickException {
 		//Data retrieval
-			gr = Store.getGr();
-			mouseX = Store.getMouseX();
-			mouseY = Store.getMouseY();
+			Graphics gr = Store.gr;
+			int mouseX = Store.mouseX,
+				mouseY = Store.mouseY;
 		
 		//Background
 			gr.setColor(AppColors.PALEGRAY.getColor());
@@ -61,13 +53,7 @@ public abstract class StatusBar {
 		gr.drawImage(Icons.SMALL_POINTER.getIcon(), PADDING_H, TOP + 5);
 		
 		
-		if(  		/* ===================== CONDITION ===================== */
-			(40 < mouseX && mouseX < Sizes.SCREEN_DEFAULT_WIDTH.getSize() * 0.7f + 40) && 
-			(
-				Sizes.SETTING_HEIGHT.getSize() + Sizes.TOOLKIT_HEIGHT.getSize() + 40 < mouseY &&
-				mouseY < Sizes.SCREEN_DEFAULT_HEIGHT.getSize() - HEIGHT
-			)
-		) {
+		if( Canva.isHover() ) {
 			gr.drawString(
 				(mouseX - 40) + "," + (int)(mouseY - (Sizes.SETTING_HEIGHT.getSize() + Sizes.TOOLKIT_HEIGHT.getSize() + 40)) + "px",
 				PADDING_H + 20,

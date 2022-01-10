@@ -10,11 +10,14 @@ public class Graphic {
 	 * =============================
 	*/
 	
-	private String str = null;
-	private int posX, posY;
-	private Shape shape = null;
 	private Color colorOfShape;
-	private int weight;
+	
+	//A text
+		private String str = null;
+		private int posX, posY;
+	//Drawing
+		private Shape shape = null;
+		private int weight;
 	
 	/*
 	 * =============================
@@ -22,9 +25,13 @@ public class Graphic {
 	 * =============================
 	*/
 	
-	public Graphic(Shape shape, Color colorOfShape, int weight) {
+	public Graphic(Shape shape, Color colorOfShape) {
 		this.shape = shape;
 		this.colorOfShape = colorOfShape;
+	}
+	
+	public Graphic(Shape shape, Color colorOfShape, int weight) {
+		this(shape, colorOfShape);
 		this.weight = weight;
 	}
 	

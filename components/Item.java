@@ -4,6 +4,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
+import constants.Actions;
 import constants.AppColors;
 
 public class Item {
@@ -12,9 +13,11 @@ public class Item {
 	 * 			PROPS 
 	 * =============================
 	*/
+	
 	private Image icon;
 	private String label;
 	private String shortcut;
+	private Actions action;
 	
 	
 	/*
@@ -23,10 +26,11 @@ public class Item {
 	 * ================================
 	*/
 	
-	public Item(Image icon, String label, String shortcut) {
+	public Item(Image icon, String label, String shortcut, Actions action) {
 		this.icon = icon;
 		this.label = label;
 		this.shortcut = shortcut;
+		this.action = action;
 	}
 	
 	/*
@@ -47,6 +51,9 @@ public class Item {
 		return this.shortcut;
 	}
 	
+	public Actions getAction() {
+		return action;
+	}
 	
 	/*
 	 * =============================

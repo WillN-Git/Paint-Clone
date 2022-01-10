@@ -18,14 +18,6 @@ import gui.*;
  */
 
 public abstract class Toolkit {
-	/*
-	 * =============================
-	 * 			DATA 
-	 * =============================
-	*/
-	
-	private static Graphics gr;
-	private static int mouseX, mouseY;
 	
 	/*
 	 * =============================
@@ -68,18 +60,7 @@ public abstract class Toolkit {
 					AppColors.BLUEGRAY.getColor(),
 					AppColors.LAVENDER.getColor()
 				}, 
-				{
-					AppColors.WHITE.getColor(),
-					AppColors.WHITE.getColor(),
-					AppColors.WHITE.getColor(),
-					AppColors.WHITE.getColor(),
-					AppColors.WHITE.getColor(),
-					AppColors.WHITE.getColor(),
-					AppColors.WHITE.getColor(),
-					AppColors.WHITE.getColor(),
-					AppColors.WHITE.getColor(),
-					AppColors.WHITE.getColor()
-				}
+				Store.swatches
 			};
 	
 	private static Tool[] tools = {
@@ -107,7 +88,7 @@ public abstract class Toolkit {
 			//SIZE
 		new Tool("Sizes", Icons.METER.toString(), PADDING_H + 540, MIDDLE + 8, 24, 24, Actions.SHOW_SIZE_MENU),
 			//COLORS
-		new Tool("Color scheme", Icons.COLOR_SCHEME.toString(), PADDING_H + 910, MIDDLE + 8, 24, 24, Actions.CHOOSE_COLOR_IN_CHROMA)		
+		new Tool("Color scheme", Icons.COLOR_SCHEME.toString(), PADDING_H + 910, MIDDLE + 8, 24, 24, Actions.SHOW_CHROMATIC_MENU)		
 	};
 	
 	
@@ -119,9 +100,9 @@ public abstract class Toolkit {
 	
 	public static void display() throws SlickException {
 		//Data retrieval
-			gr = Store.getGr();
-			mouseX = Store.getMouseX();
-			mouseY = Store.getMouseY();
+			Graphics gr = Store.gr;
+			int mouseX = Store.mouseX,
+				mouseY = Store.mouseY;
 			
 		//Background
 			gr.setColor(AppColors.SMOOTHGRAY.getColor());
@@ -198,8 +179,8 @@ public abstract class Toolkit {
 			);
 		
 		//Primary and secondary
-			displayMainColor(gr, Store.getPrimaryColor(), TOP + 28);
-			displayMainColor(gr, Store.getSecondColor(), MIDDLE + 40);
+			displayMainColor(gr, Store.primaryColor, TOP + 28);
+			displayMainColor(gr, Store.secondColor, MIDDLE + 40);
 		
 		//Tools
 			for(Tool t : tools) {
@@ -236,19 +217,19 @@ public abstract class Toolkit {
 						TOP + margin + i - 7.5f,
 						15,
 						15,
-						Store.getPreviousAction(),
+						Actions.NONE,
 						colorset[i / margin][j / margin]
 					)).clickableListener();
 				}
 			}
 	}
 	
-	public static void lineDivider(Graphics gr, float x) {
+	private static void lineDivider(Graphics gr, float x) {
 		gr.setColor(new Color(200, 200, 200));
 		gr.drawLine(x, TOP + 6, x, BOTTOM - 8);
 	}
 	
-	public static void displayMainColor(Graphics gr, Color color, float y) {
+	private static void displayMainColor(Graphics gr, Color color, float y) {
 		gr.setColor(color);
 		gr.fillOval(635 + 15 - 14, y - 14, 28, 28);
 		

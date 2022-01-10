@@ -32,197 +32,67 @@ public abstract class Store {
 	*/
 	
 	//============ Basics
-		private static Graphics gr;
-		private static GameContainer gc;
+		public static Graphics gr;
+		public static GameContainer gc;
 	
 	//============ GUI
-		private static boolean ctrlButtonPressed = false;
-		private static boolean shiftButtonPressed = false;
-		private static boolean enterButtonPressed = false;
-		private static boolean isDragging = false;
-		private static boolean isWriting = false;
-		private static float scrollTranslation = 0;
+		public static boolean ctrlButtonPressed = false;
+		public static boolean shiftButtonPressed = false;
+		public static boolean enterButtonPressed = false;
+		public static boolean isDragging = false;
+		public static boolean isClicking = false;
+		public static boolean menuIsShown = false;
+		public static float scrollTranslation = 0;
 		
-		private static String textInput;
+		public static String textInput;
 		
-		private static int mouseX, mouseY,
-		   				   mouseXClick, mouseYClick;
+		public static int mouseX, mouseY,
+		   				   mouseXClick, mouseYClick,
+		   				   absoluteMouseX, absoluteMouseY;
 	
 	//============ Shape
-		private static boolean isDrawing = false, drawFinished = false;
-		private static ArrayList<Graphic> graphics = new ArrayList<>(),
+		public static boolean isDrawing = false, drawFinished = false;
+		public static ArrayList<Graphic> graphics = new ArrayList<>(),
 										  removedGraphics = new ArrayList<>();
-		private static ArrayList<Vector2f> setOfPoints = new ArrayList<>();
-		private static int shapeWeight = 10;
-		private static Color primaryColor = AppColors.BLACK.getColor(),
+		public static ArrayList<Vector2f> setOfPoints = new ArrayList<>();
+		public static int shapeWeight = 10;
+		public static Color primaryColor = AppColors.BLACK.getColor(),
 							secondColor = AppColors.WHITE.getColor();
 	
 	//============ Actions
-		private static Actions previousAction = Actions.NONE,
+		public static Actions previousAction = Actions.NONE,
 								currentAction = Actions.NONE;
 		
-		private static Image cursorImage = null;
+		public static Image cursorImage = null;
 	
 	//============ Tools to help
-		private static TextField textfield;
-		private static GradientFill colorpicker;
+		public static TextField textfield;
+		public static GradientFill colorpicker;
 	
-	
+	//============ Color watches
+		public static Color[] swatches = {
+			AppColors.TRANSPARENT.getColor(),
+			AppColors.TRANSPARENT.getColor(),
+			AppColors.TRANSPARENT.getColor(),
+			AppColors.TRANSPARENT.getColor(),
+			AppColors.TRANSPARENT.getColor(),
+			AppColors.TRANSPARENT.getColor(),
+			AppColors.TRANSPARENT.getColor(),
+			AppColors.TRANSPARENT.getColor(),
+			AppColors.TRANSPARENT.getColor(),
+			AppColors.TRANSPARENT.getColor()
+		};
+		
+		public static int lastSwatcheIndex;
+		
 	/*
 	 * =============================
-	 * 			  GETTERS 
+	 * 			 SETTERS
 	 * =============================
 	*/
-	
-	public static Graphics getGr() {
-		return gr;
-	}
-	
-	public static GameContainer getGc() {
-		return gc;
-	}
-	
-	public static int getMouseX() {
-		return mouseX;
-	}
-	
-	public static int getMouseY() {
-		return mouseY;
-	}
-	
-	public static int getMouseXClick() {
-		return mouseXClick;
-	}
-	
-	public static int getMouseYClick() {
-		return mouseYClick;
-	}
-	
-	public static TextField getTextField() {
-		return textfield;
-	}
-	
-	public static String getTextInput() {
-		return textInput;
-	}
-	
-	public static boolean getIfCtrlButtonIsPressed() {
-		return ctrlButtonPressed;
-	}
-	
-	public static boolean getIfShiftButtonIsPressed() {
-		return shiftButtonPressed;
-	}
-	
-	public static boolean getIfEnterButtonIsPressed() {
-		return enterButtonPressed;
-	}
-	
-	public static ArrayList<Graphic> getGraphics() {
-		return graphics;
-	}
-
-	public static ArrayList<Vector2f> getSetOfPoints() {
-		return setOfPoints;
-	}
-	
-	public static Actions getPreviousAction() {
-		return previousAction;
-	}
-	
-	public static Actions getCurrentAction() {
-		return currentAction;
-	}
-	
-	public static Image getCursorImage() {
-		return cursorImage;
-	}
-	
-	public static boolean getIsDrawing() {
-		return isDrawing;
-	}
-	
-	public static boolean getDrawFinished() {
-		return drawFinished;
-	}
-	
-	public static Color getPrimaryColor() {
-		return primaryColor;
-	}
-	
-	public static Color getSecondColor() {
-		return secondColor;
-	}
-	
-	public static int getShapeWeight() {
-		return shapeWeight;
-	}
-	
-	public static boolean getIsDragging() {
-		return isDragging;
-	}
-	
-	public static float getScrollTranslation() {
-		return scrollTranslation;
-	}
-	
-	public static GradientFill getColorPicker() {
-		return colorpicker;
-	}
-	
-	/*
-	 * =============================
-	 * 			  SETTERS
-	 * =============================
-	*/
-	
-	public static void setGr(Graphics gr) {
-		Store.gr = gr; 
-	}
-	
-	public static void setGc(GameContainer gc) {
-		Store.gc = gc;
-	}
-	
-	public static void setMouseX(int mouseX) {
-		Store.mouseX = mouseX;
-	}
-	
-	public static void setMouseY(int mouseY) {
-		Store.mouseY = mouseY;
-	}
-	
-	public static void setMouseXClick(int mouseXClick) {
-		Store.mouseXClick = mouseXClick;
-	}
-	
-	public static void setMouseYClick(int mouseYClick) {
-		Store.mouseYClick = mouseYClick;
-	}
-	
-	public static void setTextField(TextField textfield) {
-		Store.textfield = textfield;
-	}
-	
-	public static void setTextInput(String textInput) {
-		Store.textInput = textInput;
-	}
-	
-	public static void setCtrlButtonPressed(boolean isPressed) {
-		Store.ctrlButtonPressed = isPressed;
-	}
-	
-	public static void setShiftButtonPressed(boolean isPressed) {
-		Store.shiftButtonPressed = isPressed;
-	}
-	
-	public static void setEnterButtonPressed(boolean isPressed) {
-		Store.enterButtonPressed = isPressed;
-	}
 	
 	public static void addGraphic(Graphic graphic) {
 		graphics.add(graphic);
-		System.out.println("\n Combien ? " + graphics.size());
 	}
 
 	public static void removeLastGraphic() {
@@ -239,8 +109,8 @@ public abstract class Store {
 		}
 	}
 	
-	public static void addPoint(Vector2f point) {
-		setOfPoints.add(point);
+	public static void addPoint(Vector2f p) {
+		setOfPoints.add(p);
 	}
 	
 	public static void removeAllPoints() {
@@ -252,39 +122,12 @@ public abstract class Store {
 		currentAction = action;
 	}
 	
-	public static void setCursorImage(Image img) {
-		cursorImage = img;
-	}
-	
-	public static void setIsDrawing(boolean isDrawing) {
-		Store.isDrawing = isDrawing;
-	}
-	
-	public static void setDrawFinished(boolean drawFinished) {
-		Store.drawFinished = drawFinished;
-	}
-	
-	public static void setPrimaryColor(Color newPrimaryColor) {
-		Store.primaryColor = newPrimaryColor;
-	}
-	
-	public static void setSecondColor(Color newSecondColor) {
-		Store.secondColor = newSecondColor;
-	}
-	
-	public static void setShapeWeight(int shapeWeight) {
-		Store.shapeWeight = shapeWeight;
-	}
-	
-	public static void setIsDragging(boolean isDragging) {
-		Store.isDragging = isDragging;
-	}
-	
-	public static void setScrollTranslation(float scrollTranslation) {
-		Store.scrollTranslation = scrollTranslation;
-	}
-	
-	public static void setColorPicker(GradientFill colorpicker) {
-		Store.colorpicker = colorpicker;
+	public static void setSwatches(Color newColor) {
+		if( lastSwatcheIndex >= swatches.length )
+			lastSwatcheIndex = 0;
+		
+		swatches[ lastSwatcheIndex ] = newColor;
+		
+		lastSwatcheIndex++;
 	}
 }

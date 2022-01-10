@@ -9,15 +9,7 @@ import constants.AppColors;
 import constants.Sizes;
 
 public class Scroller {
-	/*
-	 * =============================
-	 * 			  DATA 
-	 * =============================
-	*/
-	
-	private Graphics gr;
-	private int mouseY, mouseYClick;
-	
+
 	/*
 	 * =============================
 	 * 			  PROPS 
@@ -39,17 +31,17 @@ public class Scroller {
 	
 	public void display() throws SlickException {
 		//Data retrieval
-			gr = Store.getGr();
-			mouseY = Store.getMouseY();
-			mouseYClick = Store.getMouseYClick();
+			Graphics gr = Store.gr;
+			int mouseY = Store.mouseY,
+				mouseYClick = Store.mouseYClick;
 		
-		if(Store.getCurrentAction() == Actions.SCROLL && Store.getIsDragging()) {
+		if( Store.currentAction == Actions.SCROLL && Store.isDragging ) {// If the user is allowed to scroll and he's dragging his mouse
 			scrollTo = -( mouseYClick - mouseY );
 			lastScroll = scrollTo;
 			
-			Store.setScrollTranslation(scrollTo);
-		} else if(Store.getCurrentAction() == Actions.SCROLL) {
-			Store.setScrollTranslation(lastScroll);
+			Store.scrollTranslation = scrollTo;
+		} else if(Store.currentAction == Actions.SCROLL) {
+			Store.scrollTranslation = lastScroll;
 			
 			posY += lastScroll;
 			scrollTo = 0;

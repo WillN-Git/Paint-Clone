@@ -22,11 +22,12 @@ public class ClickableArea {
 		private float posX, posY;
 	//Hover Area Dimensions
 		private float clickableAreaWidth, clickableAreaHeight;
-	
-	private Color color = null;
-	
+	//To Handle color choose
+		private Color color = null;
+	//To Handle line width
+		private int size;
+		
 	private Actions action;
-	private int size;
 	private int mouseX, mouseY;
 	
 	/*
@@ -36,7 +37,7 @@ public class ClickableArea {
 	*/
 	
 	public ClickableArea(float posX, float posY, float width, float height, Actions action) {
-		this.gr = Store.getGr();
+		this.gr = Store.gr;
 		this.posX = posX;
 		this.posY = posY;
 		this.clickableAreaWidth = width + 8;
@@ -63,8 +64,8 @@ public class ClickableArea {
 	
 	public void clickableListener() throws SlickException {
 		//Data retrieval
-			mouseX = Store.getMouseXClick();
-			mouseY = Store.getMouseYClick();
+			mouseX = Store.mouseXClick;
+			mouseY = Store.mouseYClick;
 		
 		
 		if(
@@ -89,9 +90,9 @@ public class ClickableArea {
 				Store.setCurrentAction(action);
 			
 			if(color != null)
-				Store.setPrimaryColor(color);
+				Store.primaryColor  = color;
 			if(size != 0)
-				Store.setShapeWeight(size);
+				Store.shapeWeight = size;
 		}
 	}
 }

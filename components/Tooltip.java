@@ -10,6 +10,7 @@ public class Tooltip {
 	 * 			PROPS 
 	 * =============================
 	*/
+	
 	private float posX, posY;
 	
 	private String label;

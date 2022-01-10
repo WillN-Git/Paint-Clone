@@ -8,14 +8,6 @@ import components.Store;
 import constants.AppColors;
 
 public class MouseHoverArea {
-	/*
-	 * =============================
-	 * 			  DATA 
-	 * =============================
-	*/
-	
-	private Graphics gr;
-	private int mouseX, mouseY;
 	
 	/*
 	 * =============================
@@ -24,6 +16,9 @@ public class MouseHoverArea {
 	*/
 	
 	private boolean isHover = false;
+	
+	//Graphics context
+		private Graphics gr;
 	
 	//Hover Area Position
 		private float posX, posY;
@@ -34,6 +29,8 @@ public class MouseHoverArea {
 	//Content
 		private String text = null;
 		private Image img = null;
+		
+	private int mouseX, mouseY;
 	
 	
 	/*
@@ -44,7 +41,7 @@ public class MouseHoverArea {
 	
 	public MouseHoverArea(String text, float posX, float posY, float width, float height) {
 		this.text = text;//drawString(text, posX, posY);
-		this.gr = Store.getGr();
+		this.gr = Store.gr;
 		this.posX = posX;
 		this.posY = posY;
 		this.hoverAreaWidth = width + 8;
@@ -54,7 +51,7 @@ public class MouseHoverArea {
 	public MouseHoverArea(String text, Image img, float posX, float posY, float width, float height) {
 		this.text = text;
 		this.img = img;//gr.drawImage(img, posX, posY);
-		this.gr = Store.getGr();
+		this.gr = Store.gr;
 		this.posX = posX;
 		this.posY = posY;
 		this.hoverAreaWidth = width + 8;
@@ -70,8 +67,8 @@ public class MouseHoverArea {
 	
 	public void hoverListener() {
 		//Data retrieval
-			mouseX = Store.getMouseX();
-			mouseY = Store.getMouseY();
+			mouseX = Store.mouseX;
+			mouseY = Store.mouseY;
 		
 		displayHoverableArea();
 		
